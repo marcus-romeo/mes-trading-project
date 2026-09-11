@@ -1,0 +1,7 @@
+databento==0.86.0
+pandas==3.0.5
+jupyterlab==4.6.3
+SQLAlchemy==2.0.52
+psycopg2-binary==2.9.13
+python-dotenv==1.2.3
+ipykernel==7.3.0
