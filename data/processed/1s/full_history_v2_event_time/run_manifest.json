@@ -1,0 +1,24 @@
+{
+  "schema_version": "mes_1s_v2_event_time_33",
+  "timestamp_policy": "Databento ts_event (exchange event time), stored in UTC",
+  "session_timezone": "America/Chicago",
+  "tick_rule": "tick_rule_v1; state resets when instrument_id changes",
+  "raw_source": "data/mes_trades_2025-10-07_to_2026-09-11.dbn",
+  "raw_trades": 99319450,
+  "raw_volume": 298546252,
+  "first_event_timestamp": "2025-10-07 00:00:00.043782871+00:00",
+  "last_event_timestamp": "2026-09-10 23:59:59.790465427+00:00",
+  "session_files": 242,
+  "one_second_rows": 13165975,
+  "known_degraded_calendar_dates": {
+    "2025-11-28": "degraded",
+    "2026-01-31": "degraded",
+    "2026-03-15": "degraded",
+    "2026-03-16": "degraded",
+    "2026-03-21": "degraded",
+    "2026-04-10": "degraded",
+    "2026-05-24": "degraded",
+    "2026-07-30": "degraded",
+    "2026-08-29": "degraded"
+  }
+}
