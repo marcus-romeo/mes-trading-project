@@ -1,0 +1,44 @@
+{
+  "schema_version": "mes_1m_v1_from_v2_event_time_33",
+  "source_schema_version": "mes_1s_v2_event_time_33",
+  "source_dataset": "validated V2 event-time one-second foundation",
+  "source_path": "data/processed/1s/full_history_v2_event_time",
+  "output_path": "data/processed/1m/full_history_v1",
+  "timestamp_policy": "Databento ts_event (exchange event time), stored in UTC",
+  "minute_timing_contract": "Each row summarizes the completed [minute_start, decision_timestamp) interval.",
+  "decision_timestamp_convention": "decision_timestamp = minute_start + 1 minute; no contributing trade occurs at or after decision_timestamp.",
+  "sessions": 242,
+  "source_one_second_rows": 13165975,
+  "one_minute_rows": 329337,
+  "volume": 298546252,
+  "trades": 99319450,
+  "contract_change_count": 3,
+  "contract_changes": [
+    {
+      "timestamp": "2025-12-17 00:00:00+00:00",
+      "instrument_id": 42003800,
+      "contract": "MESH6"
+    },
+    {
+      "timestamp": "2026-03-18 00:00:00+00:00",
+      "instrument_id": 42005163,
+      "contract": "MESM6"
+    },
+    {
+      "timestamp": "2026-06-17 00:00:00+00:00",
+      "instrument_id": 42003239,
+      "contract": "MESU6"
+    }
+  ],
+  "partial_source_boundary_sessions": [
+    "2025-10-07",
+    "2026-09-11"
+  ],
+  "degraded_session_policy": "Degraded-session metadata remains authoritative in data/processed/1s/full_history_v2_event_time/session_manifest.json and must be handled deliberately during modeling.",
+  "native_order_flow_policy": "Databento-native aggressor-side fields are historical benchmark fields only and are not production model inputs; production features must use live-compatible inferred order flow.",
+  "intentionally_omitted_v2_fields": {
+    "unique_price_levels": "Summing one-second values would double-count prices that trade in multiple seconds.",
+    "max_volume_at_price": "Taking a one-second maximum would not equal minute-level volume accumulated at the same price across seconds.",
+    "policy": "The minute foundation intentionally omits misleading approximations. V2 remains available; a true minute/session volume-at-price layer requires a separate deliberate design, potentially from raw trades."
+  }
+}
