@@ -67,21 +67,26 @@ provide an equivalent exchange-native label.
 ## Notebook guide
 
 - `01_environment_test.ipynb` — confirms the isolated Python environment.
-- `02_databento_cost_estimate.ipynb` — records historical-data decisions and
-  contains guarded download examples. Existing raw targets hard-stop rather
-  than silently re-download or overwrite data.
+- `02_databento_cost_estimate.ipynb` — archived cost-estimation and
+  acquisition record. Run All makes no remote requests.
 - `03_raw_data_validation.ipynb` — validates raw coverage, contract mapping,
   and Databento quality conditions.
-- `04_trade_processing.ipynb` — technical report for the 1-second pipeline,
-  its historical prototypes, authoritative v2 implementation, and completed
-  production/audit record.
+- `04_trade_processing.ipynb` — technical record for the V2 design decisions
+  and validation results; the executable implementation is in source.
 - `05_feature_engineering.ipynb` — technical record for the frozen one-minute
   derivation, its read-only full-history audit, and the transition to model
   feature creation.
 
-The authoritative implementations are `src/trade_processing_v2.py` and
+The executable implementations are `src/trade_processing_v2.py` and
 `src/feature_engineering_v1.py`. Keeping production logic in source modules
 prevents notebook prototypes and validation paths from drifting.
+
+Recommended review order:
+
+1. This README
+2. `03_raw_data_validation.ipynb`
+3. `src/trade_processing_v2.py`
+4. `05_feature_engineering.ipynb` and `src/feature_engineering_v1.py`
 
 ## Dataset versions and status
 
@@ -110,11 +115,12 @@ live IBKR system must additionally wait until the relevant final event has been
 received and processed before acting.
 
 The first and last raw-covered CME sessions are partial. In the manifest,
-`is_complete_session` means the raw source spans the nominal CME 17:00–16:00
-Chicago session window; it does not mean a holiday or early-close session had
-ordinary trading hours. The manifest also conservatively records sessions
-touched by Databento degraded-date notices. Downstream training and test splits
-must choose their session eligibility rules deliberately.
+`is_complete_session` is source-boundary metadata: it records whether the
+acquired source range reaches the nominal CME session endpoints. It does not
+assess exchange-calendar coverage, ordinary sparse trading, or vendor quality
+within a session. The manifest also conservatively records sessions touched by
+Databento degraded-date notices. Downstream training and test splits must
+choose their session eligibility rules deliberately.
 
 Databento prices are unadjusted across continuous-contract rolls. The minute
 foundation preserves instrument identity and `contract_change`; returns,

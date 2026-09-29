@@ -416,10 +416,10 @@ def write_session_parquet(session_data: pd.DataFrame, output_dir: Path) -> tuple
 def _session_bounds_utc(session_date_value: str) -> tuple[pd.Timestamp, pd.Timestamp]:
     """Return the nominal regular CME window used for source-coverage metadata.
 
-    ``is_complete_session`` means the raw source reaches both ends of this
-    normal 17:00--16:00 Chicago window.  It does not assert that CME operated
-    normal hours: holidays, early closes, and exchange-quality conditions need
-    separate downstream treatment.
+    ``is_complete_session`` is a source-boundary indicator: the acquired raw
+    range reaches both nominal 17:00--16:00 Chicago endpoints. It does not
+    assess exchange-calendar coverage, sparse trading, or vendor quality
+    within a session.
     """
     end_date = date.fromisoformat(session_date_value)
     start = pd.Timestamp(datetime.combine(end_date - timedelta(days=1), time(17)), tz=CHICAGO_TIMEZONE).tz_convert("UTC")
@@ -440,8 +440,8 @@ def write_run_manifests(output_dir: Path, session_records: list[dict[str, Any]],
         raw_source = str(raw_path)
     for record in session_records:
         start, end = _session_bounds_utc(record["session_date"])
-        # This is deliberately a raw-source coverage check, not a claim that
-        # the exchange had a normal full session on a holiday or early close.
+        # Source-boundary metadata only; it is not an exchange-calendar or
+        # within-session data-quality assessment.
         record["is_complete_session"] = bool(first_event <= start and last_event >= end)
     run_manifest = {
         "schema_version": SCHEMA_VERSION,
