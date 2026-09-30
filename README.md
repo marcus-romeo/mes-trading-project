@@ -88,6 +88,9 @@ Recommended review order:
 3. `src/trade_processing_v2.py`
 4. `05_feature_engineering.ipynb` and `src/feature_engineering_v1.py`
 
+The pre-model research design is recorded in
+[Research Protocol V1](RESEARCH_PROTOCOL_V1.md).
+
 ## Dataset versions and status
 
 - `data/processed/1s/full_history_v1/` is preserved for provenance. It was
