@@ -1,0 +1,4152 @@
+{
+  "schema_version": "mes_target_v1_event_time_15m_10s",
+  "created_at_utc": "2026-09-30T17:14:28.587984+00:00",
+  "source_one_minute": {
+    "schema_version": "mes_1m_v1_from_v2_event_time_33",
+    "path": "data/processed/1m/full_history_v1",
+    "timestamp_policy": "Databento ts_event (exchange event time), stored in UTC",
+    "decision_timestamp_convention": "decision_timestamp = minute_start + 1 minute; no contributing trade occurs at or after decision_timestamp."
+  },
+  "source_one_second_v2": {
+    "schema_version": "mes_1s_v2_event_time_33",
+    "path": "data/processed/1s/full_history_v2_event_time",
+    "timestamp_policy": "Databento ts_event (exchange event time), stored in UTC"
+  },
+  "prediction_horizon_minutes": 15,
+  "reference_price_rule": "first actual V2 event-time trade at or after each boundary; 0 <= delay < 10 seconds; use the one-second row open",
+  "equal_price_policy": "equal endpoint prices have no binary target",
+  "continuity_policy": "require every elapsed one-minute boundary from T through T+15m; do not bridge session boundaries, closures, gaps, or absent minutes",
+  "contract_roll_policy": "require one instrument_id throughout T through T+15m; targets crossing a roll are ineligible",
+  "source_boundary_policy": "2025-10-07 and 2026-09-11 remain; normal observation-level eligibility applies without synthetic coverage",
+  "known_gap_outage_policy": "the exact elapsed-minute continuity rule blocks the November 28, 2025 outage and unresolved December 24/30 gaps",
+  "session_files": 242,
+  "total_candidate_rows": 329337,
+  "structurally_valid_paths": 325614,
+  "reference_pairs_within_10s": 318444,
+  "equal_price_count": 9245,
+  "binary_eligible_rows": 309199,
+  "up_count": 156960,
+  "down_count": 152239,
+  "eligibility_reason_counts": {
+    "CROSSES_CONTRACT_ROLL": 45,
+    "CROSSES_INTERNAL_GAP": 30,
+    "ELIGIBLE": 309199,
+    "EQUAL_REFERENCE_PRICE": 9245,
+    "NO_FUTURE_BOUNDARY": 3648,
+    "NO_FUTURE_REFERENCE_WITHIN_10S": 3570,
+    "NO_START_REFERENCE_WITHIN_10S": 3600
+  },
+  "first_decision_timestamp": "2025-10-07 00:01:00+00:00",
+  "last_decision_timestamp": "2026-09-11 00:00:00+00:00",
+  "contract_roll_sessions": [
+    "2025-12-17",
+    "2026-03-18",
+    "2026-06-17"
+  ],
+  "contract_roll_count": 3,
+  "source_boundary_sessions": [
+    "2025-10-07",
+    "2026-09-11"
+  ],
+  "target_outcome_fields": [
+    "start_reference_timestamp",
+    "start_reference_delay_seconds",
+    "start_reference_price",
+    "future_boundary_timestamp",
+    "future_reference_timestamp",
+    "future_reference_delay_seconds",
+    "future_reference_price",
+    "forward_price_change",
+    "forward_log_return",
+    "target_up_15m",
+    "target_eligible",
+    "eligibility_reason"
+  ],
+  "predictive_features_included": false,
+  "target_outcomes_must_not_enter_feature_matrix": true,
+  "session_audit": [
+    {
+      "candidate_rows": 1260,
+      "structurally_valid_paths": 1245,
+      "reference_pairs_within_10s": 1159,
+      "equal_price_count": 46,
+      "binary_eligible_rows": 1113,
+      "up_count": 597,
+      "down_count": 516,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1113,
+        "EQUAL_REFERENCE_PRICE": 46,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 41,
+        "NO_START_REFERENCE_WITHIN_10S": 45
+      },
+      "session_date": "2025-10-07"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1292,
+      "equal_price_count": 57,
+      "binary_eligible_rows": 1235,
+      "up_count": 696,
+      "down_count": 539,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1235,
+        "EQUAL_REFERENCE_PRICE": 57,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 36,
+        "NO_START_REFERENCE_WITHIN_10S": 37
+      },
+      "session_date": "2025-10-08"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1282,
+      "equal_price_count": 52,
+      "binary_eligible_rows": 1230,
+      "up_count": 615,
+      "down_count": 615,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1230,
+        "EQUAL_REFERENCE_PRICE": 52,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 41,
+        "NO_START_REFERENCE_WITHIN_10S": 42
+      },
+      "session_date": "2025-10-09"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1276,
+      "equal_price_count": 44,
+      "binary_eligible_rows": 1232,
+      "up_count": 587,
+      "down_count": 645,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1232,
+        "EQUAL_REFERENCE_PRICE": 44,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 42,
+        "NO_START_REFERENCE_WITHIN_10S": 47
+      },
+      "session_date": "2025-10-10"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1328,
+      "up_count": 708,
+      "down_count": 620,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1328,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2025-10-13"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1347,
+      "equal_price_count": 19,
+      "binary_eligible_rows": 1328,
+      "up_count": 659,
+      "down_count": 669,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1328,
+        "EQUAL_REFERENCE_PRICE": 19,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 9
+      },
+      "session_date": "2025-10-14"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1340,
+      "equal_price_count": 22,
+      "binary_eligible_rows": 1318,
+      "up_count": 706,
+      "down_count": 612,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1318,
+        "EQUAL_REFERENCE_PRICE": 22,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 13,
+        "NO_START_REFERENCE_WITHIN_10S": 12
+      },
+      "session_date": "2025-10-15"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1337,
+      "equal_price_count": 23,
+      "binary_eligible_rows": 1314,
+      "up_count": 665,
+      "down_count": 649,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1314,
+        "EQUAL_REFERENCE_PRICE": 23,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 14,
+        "NO_START_REFERENCE_WITHIN_10S": 14
+      },
+      "session_date": "2025-10-16"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 20,
+      "binary_eligible_rows": 1338,
+      "up_count": 631,
+      "down_count": 707,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1338,
+        "EQUAL_REFERENCE_PRICE": 20,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2025-10-17"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 43,
+      "binary_eligible_rows": 1313,
+      "up_count": 754,
+      "down_count": 559,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1313,
+        "EQUAL_REFERENCE_PRICE": 43,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2025-10-20"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1328,
+      "equal_price_count": 50,
+      "binary_eligible_rows": 1278,
+      "up_count": 678,
+      "down_count": 600,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1278,
+        "EQUAL_REFERENCE_PRICE": 50,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 19,
+        "NO_START_REFERENCE_WITHIN_10S": 18
+      },
+      "session_date": "2025-10-21"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1320,
+      "equal_price_count": 36,
+      "binary_eligible_rows": 1284,
+      "up_count": 628,
+      "down_count": 656,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1284,
+        "EQUAL_REFERENCE_PRICE": 36,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 23,
+        "NO_START_REFERENCE_WITHIN_10S": 22
+      },
+      "session_date": "2025-10-22"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1324,
+      "equal_price_count": 37,
+      "binary_eligible_rows": 1287,
+      "up_count": 693,
+      "down_count": 594,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1287,
+        "EQUAL_REFERENCE_PRICE": 37,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 21,
+        "NO_START_REFERENCE_WITHIN_10S": 20
+      },
+      "session_date": "2025-10-23"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1283,
+      "equal_price_count": 48,
+      "binary_eligible_rows": 1235,
+      "up_count": 657,
+      "down_count": 578,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1235,
+        "EQUAL_REFERENCE_PRICE": 48,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 40,
+        "NO_START_REFERENCE_WITHIN_10S": 42
+      },
+      "session_date": "2025-10-24"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1314,
+      "equal_price_count": 50,
+      "binary_eligible_rows": 1264,
+      "up_count": 754,
+      "down_count": 510,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1264,
+        "EQUAL_REFERENCE_PRICE": 50,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 25,
+        "NO_START_REFERENCE_WITHIN_10S": 26
+      },
+      "session_date": "2025-10-27"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1318,
+      "equal_price_count": 74,
+      "binary_eligible_rows": 1244,
+      "up_count": 643,
+      "down_count": 601,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1244,
+        "EQUAL_REFERENCE_PRICE": 74,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 23,
+        "NO_START_REFERENCE_WITHIN_10S": 24
+      },
+      "session_date": "2025-10-28"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1317,
+      "equal_price_count": 50,
+      "binary_eligible_rows": 1267,
+      "up_count": 693,
+      "down_count": 574,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1267,
+        "EQUAL_REFERENCE_PRICE": 50,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 24,
+        "NO_START_REFERENCE_WITHIN_10S": 24
+      },
+      "session_date": "2025-10-29"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 18,
+      "binary_eligible_rows": 1340,
+      "up_count": 662,
+      "down_count": 678,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1340,
+        "EQUAL_REFERENCE_PRICE": 18,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2025-10-30"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1340,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1308,
+      "up_count": 660,
+      "down_count": 648,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1308,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 13,
+        "NO_START_REFERENCE_WITHIN_10S": 12
+      },
+      "session_date": "2025-10-31"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1348,
+      "equal_price_count": 55,
+      "binary_eligible_rows": 1293,
+      "up_count": 667,
+      "down_count": 626,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1293,
+        "EQUAL_REFERENCE_PRICE": 55,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 8
+      },
+      "session_date": "2025-11-03"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 28,
+      "binary_eligible_rows": 1330,
+      "up_count": 522,
+      "down_count": 808,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1330,
+        "EQUAL_REFERENCE_PRICE": 28,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2025-11-04"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 41,
+      "binary_eligible_rows": 1323,
+      "up_count": 661,
+      "down_count": 662,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1323,
+        "EQUAL_REFERENCE_PRICE": 41,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2025-11-05"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 40,
+      "binary_eligible_rows": 1320,
+      "up_count": 694,
+      "down_count": 626,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1320,
+        "EQUAL_REFERENCE_PRICE": 40,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2025-11-06"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 22,
+      "binary_eligible_rows": 1340,
+      "up_count": 680,
+      "down_count": 660,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1340,
+        "EQUAL_REFERENCE_PRICE": 22,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2025-11-07"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1352,
+      "equal_price_count": 43,
+      "binary_eligible_rows": 1309,
+      "up_count": 759,
+      "down_count": 550,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1309,
+        "EQUAL_REFERENCE_PRICE": 43,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 7,
+        "NO_START_REFERENCE_WITHIN_10S": 6
+      },
+      "session_date": "2025-11-10"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1348,
+      "equal_price_count": 41,
+      "binary_eligible_rows": 1307,
+      "up_count": 650,
+      "down_count": 657,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1307,
+        "EQUAL_REFERENCE_PRICE": 41,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 8
+      },
+      "session_date": "2025-11-11"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1335,
+      "equal_price_count": 41,
+      "binary_eligible_rows": 1294,
+      "up_count": 680,
+      "down_count": 614,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1294,
+        "EQUAL_REFERENCE_PRICE": 41,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 15,
+        "NO_START_REFERENCE_WITHIN_10S": 15
+      },
+      "session_date": "2025-11-12"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1348,
+      "equal_price_count": 34,
+      "binary_eligible_rows": 1314,
+      "up_count": 570,
+      "down_count": 744,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1314,
+        "EQUAL_REFERENCE_PRICE": 34,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 8
+      },
+      "session_date": "2025-11-13"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 20,
+      "binary_eligible_rows": 1342,
+      "up_count": 601,
+      "down_count": 741,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1342,
+        "EQUAL_REFERENCE_PRICE": 20,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2025-11-14"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 23,
+      "binary_eligible_rows": 1337,
+      "up_count": 590,
+      "down_count": 747,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1337,
+        "EQUAL_REFERENCE_PRICE": 23,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2025-11-17"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 19,
+      "binary_eligible_rows": 1345,
+      "up_count": 593,
+      "down_count": 752,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1345,
+        "EQUAL_REFERENCE_PRICE": 19,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2025-11-18"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 23,
+      "binary_eligible_rows": 1341,
+      "up_count": 666,
+      "down_count": 675,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1341,
+        "EQUAL_REFERENCE_PRICE": 23,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2025-11-19"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 16,
+      "binary_eligible_rows": 1342,
+      "up_count": 682,
+      "down_count": 660,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1342,
+        "EQUAL_REFERENCE_PRICE": 16,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2025-11-20"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 15,
+      "binary_eligible_rows": 1349,
+      "up_count": 673,
+      "down_count": 676,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1349,
+        "EQUAL_REFERENCE_PRICE": 15,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2025-11-21"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 30,
+      "binary_eligible_rows": 1328,
+      "up_count": 734,
+      "down_count": 594,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1328,
+        "EQUAL_REFERENCE_PRICE": 30,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2025-11-24"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1334,
+      "equal_price_count": 39,
+      "binary_eligible_rows": 1295,
+      "up_count": 689,
+      "down_count": 606,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1295,
+        "EQUAL_REFERENCE_PRICE": 39,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 16,
+        "NO_START_REFERENCE_WITHIN_10S": 15
+      },
+      "session_date": "2025-11-25"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1339,
+      "equal_price_count": 43,
+      "binary_eligible_rows": 1296,
+      "up_count": 723,
+      "down_count": 573,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1296,
+        "EQUAL_REFERENCE_PRICE": 43,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 14,
+        "NO_START_REFERENCE_WITHIN_10S": 12
+      },
+      "session_date": "2025-11-26"
+    },
+    {
+      "candidate_rows": 1140,
+      "structurally_valid_paths": 1125,
+      "reference_pairs_within_10s": 872,
+      "equal_price_count": 51,
+      "binary_eligible_rows": 821,
+      "up_count": 404,
+      "down_count": 417,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 821,
+        "EQUAL_REFERENCE_PRICE": 51,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 119,
+        "NO_START_REFERENCE_WITHIN_10S": 134
+      },
+      "session_date": "2025-11-27"
+    },
+    {
+      "candidate_rows": 510,
+      "structurally_valid_paths": 480,
+      "reference_pairs_within_10s": 447,
+      "equal_price_count": 12,
+      "binary_eligible_rows": 435,
+      "up_count": 254,
+      "down_count": 181,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 435,
+        "EQUAL_REFERENCE_PRICE": 12,
+        "NO_FUTURE_BOUNDARY": 30,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 19,
+        "NO_START_REFERENCE_WITHIN_10S": 14
+      },
+      "session_date": "2025-11-28"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 42,
+      "binary_eligible_rows": 1318,
+      "up_count": 613,
+      "down_count": 705,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1318,
+        "EQUAL_REFERENCE_PRICE": 42,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2025-12-01"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1341,
+      "equal_price_count": 33,
+      "binary_eligible_rows": 1308,
+      "up_count": 713,
+      "down_count": 595,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1308,
+        "EQUAL_REFERENCE_PRICE": 33,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 12,
+        "NO_START_REFERENCE_WITHIN_10S": 12
+      },
+      "session_date": "2025-12-02"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1301,
+      "equal_price_count": 60,
+      "binary_eligible_rows": 1241,
+      "up_count": 697,
+      "down_count": 544,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1241,
+        "EQUAL_REFERENCE_PRICE": 60,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 32,
+        "NO_START_REFERENCE_WITHIN_10S": 32
+      },
+      "session_date": "2025-12-03"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1280,
+      "equal_price_count": 55,
+      "binary_eligible_rows": 1225,
+      "up_count": 598,
+      "down_count": 627,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1225,
+        "EQUAL_REFERENCE_PRICE": 55,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 42,
+        "NO_START_REFERENCE_WITHIN_10S": 43
+      },
+      "session_date": "2025-12-04"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1281,
+      "equal_price_count": 63,
+      "binary_eligible_rows": 1218,
+      "up_count": 650,
+      "down_count": 568,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1218,
+        "EQUAL_REFERENCE_PRICE": 63,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 40,
+        "NO_START_REFERENCE_WITHIN_10S": 44
+      },
+      "session_date": "2025-12-05"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1295,
+      "equal_price_count": 48,
+      "binary_eligible_rows": 1247,
+      "up_count": 679,
+      "down_count": 568,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1247,
+        "EQUAL_REFERENCE_PRICE": 48,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 34,
+        "NO_START_REFERENCE_WITHIN_10S": 36
+      },
+      "session_date": "2025-12-08"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1273,
+      "equal_price_count": 68,
+      "binary_eligible_rows": 1205,
+      "up_count": 533,
+      "down_count": 672,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1205,
+        "EQUAL_REFERENCE_PRICE": 68,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 40,
+        "NO_START_REFERENCE_WITHIN_10S": 52
+      },
+      "session_date": "2025-12-09"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1256,
+      "equal_price_count": 57,
+      "binary_eligible_rows": 1199,
+      "up_count": 629,
+      "down_count": 570,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1199,
+        "EQUAL_REFERENCE_PRICE": 57,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 52,
+        "NO_START_REFERENCE_WITHIN_10S": 57
+      },
+      "session_date": "2025-12-10"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1352,
+      "equal_price_count": 38,
+      "binary_eligible_rows": 1314,
+      "up_count": 673,
+      "down_count": 641,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1314,
+        "EQUAL_REFERENCE_PRICE": 38,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 7,
+        "NO_START_REFERENCE_WITHIN_10S": 6
+      },
+      "session_date": "2025-12-11"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1325,
+      "equal_price_count": 44,
+      "binary_eligible_rows": 1281,
+      "up_count": 601,
+      "down_count": 680,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1281,
+        "EQUAL_REFERENCE_PRICE": 44,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 21,
+        "NO_START_REFERENCE_WITHIN_10S": 19
+      },
+      "session_date": "2025-12-12"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1295,
+      "equal_price_count": 53,
+      "binary_eligible_rows": 1242,
+      "up_count": 702,
+      "down_count": 540,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1242,
+        "EQUAL_REFERENCE_PRICE": 53,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 35,
+        "NO_START_REFERENCE_WITHIN_10S": 35
+      },
+      "session_date": "2025-12-15"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1291,
+      "equal_price_count": 23,
+      "binary_eligible_rows": 1268,
+      "up_count": 642,
+      "down_count": 626,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1268,
+        "EQUAL_REFERENCE_PRICE": 23,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 36,
+        "NO_START_REFERENCE_WITHIN_10S": 38
+      },
+      "session_date": "2025-12-16"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1350,
+      "reference_pairs_within_10s": 1328,
+      "equal_price_count": 47,
+      "binary_eligible_rows": 1281,
+      "up_count": 665,
+      "down_count": 616,
+      "eligibility_reason_counts": {
+        "CROSSES_CONTRACT_ROLL": 15,
+        "ELIGIBLE": 1281,
+        "EQUAL_REFERENCE_PRICE": 47,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 12,
+        "NO_START_REFERENCE_WITHIN_10S": 10
+      },
+      "session_date": "2025-12-17"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 38,
+      "binary_eligible_rows": 1318,
+      "up_count": 703,
+      "down_count": 615,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1318,
+        "EQUAL_REFERENCE_PRICE": 38,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2025-12-18"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1339,
+      "equal_price_count": 40,
+      "binary_eligible_rows": 1299,
+      "up_count": 691,
+      "down_count": 608,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1299,
+        "EQUAL_REFERENCE_PRICE": 40,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 14,
+        "NO_START_REFERENCE_WITHIN_10S": 12
+      },
+      "session_date": "2025-12-19"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1253,
+      "equal_price_count": 81,
+      "binary_eligible_rows": 1172,
+      "up_count": 630,
+      "down_count": 542,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1172,
+        "EQUAL_REFERENCE_PRICE": 81,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 55,
+        "NO_START_REFERENCE_WITHIN_10S": 57
+      },
+      "session_date": "2025-12-22"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1237,
+      "equal_price_count": 92,
+      "binary_eligible_rows": 1145,
+      "up_count": 593,
+      "down_count": 552,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1145,
+        "EQUAL_REFERENCE_PRICE": 92,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 61,
+        "NO_START_REFERENCE_WITHIN_10S": 67
+      },
+      "session_date": "2025-12-23"
+    },
+    {
+      "candidate_rows": 1153,
+      "structurally_valid_paths": 1120,
+      "reference_pairs_within_10s": 845,
+      "equal_price_count": 71,
+      "binary_eligible_rows": 774,
+      "up_count": 429,
+      "down_count": 345,
+      "eligibility_reason_counts": {
+        "CROSSES_INTERNAL_GAP": 16,
+        "ELIGIBLE": 774,
+        "EQUAL_REFERENCE_PRICE": 71,
+        "NO_FUTURE_BOUNDARY": 17,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 125,
+        "NO_START_REFERENCE_WITHIN_10S": 150
+      },
+      "session_date": "2025-12-24"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1122,
+      "equal_price_count": 82,
+      "binary_eligible_rows": 1040,
+      "up_count": 487,
+      "down_count": 553,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1040,
+        "EQUAL_REFERENCE_PRICE": 82,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 107,
+        "NO_START_REFERENCE_WITHIN_10S": 136
+      },
+      "session_date": "2025-12-26"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1296,
+      "equal_price_count": 56,
+      "binary_eligible_rows": 1240,
+      "up_count": 540,
+      "down_count": 700,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1240,
+        "EQUAL_REFERENCE_PRICE": 56,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 31,
+        "NO_START_REFERENCE_WITHIN_10S": 38
+      },
+      "session_date": "2025-12-29"
+    },
+    {
+      "candidate_rows": 1379,
+      "structurally_valid_paths": 1349,
+      "reference_pairs_within_10s": 1193,
+      "equal_price_count": 59,
+      "binary_eligible_rows": 1134,
+      "up_count": 553,
+      "down_count": 581,
+      "eligibility_reason_counts": {
+        "CROSSES_INTERNAL_GAP": 14,
+        "ELIGIBLE": 1134,
+        "EQUAL_REFERENCE_PRICE": 59,
+        "NO_FUTURE_BOUNDARY": 16,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 77,
+        "NO_START_REFERENCE_WITHIN_10S": 79
+      },
+      "session_date": "2025-12-30"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1224,
+      "equal_price_count": 62,
+      "binary_eligible_rows": 1162,
+      "up_count": 555,
+      "down_count": 607,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1162,
+        "EQUAL_REFERENCE_PRICE": 62,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 67,
+        "NO_START_REFERENCE_WITHIN_10S": 74
+      },
+      "session_date": "2025-12-31"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1294,
+      "equal_price_count": 50,
+      "binary_eligible_rows": 1244,
+      "up_count": 666,
+      "down_count": 578,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1244,
+        "EQUAL_REFERENCE_PRICE": 50,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 35,
+        "NO_START_REFERENCE_WITHIN_10S": 36
+      },
+      "session_date": "2026-01-02"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1320,
+      "equal_price_count": 49,
+      "binary_eligible_rows": 1271,
+      "up_count": 669,
+      "down_count": 602,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1271,
+        "EQUAL_REFERENCE_PRICE": 49,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 23,
+        "NO_START_REFERENCE_WITHIN_10S": 22
+      },
+      "session_date": "2026-01-05"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1265,
+      "equal_price_count": 70,
+      "binary_eligible_rows": 1195,
+      "up_count": 705,
+      "down_count": 490,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1195,
+        "EQUAL_REFERENCE_PRICE": 70,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 48,
+        "NO_START_REFERENCE_WITHIN_10S": 52
+      },
+      "session_date": "2026-01-06"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1255,
+      "equal_price_count": 51,
+      "binary_eligible_rows": 1204,
+      "up_count": 578,
+      "down_count": 626,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1204,
+        "EQUAL_REFERENCE_PRICE": 51,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 53,
+        "NO_START_REFERENCE_WITHIN_10S": 57
+      },
+      "session_date": "2026-01-07"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1326,
+      "equal_price_count": 64,
+      "binary_eligible_rows": 1262,
+      "up_count": 622,
+      "down_count": 640,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1262,
+        "EQUAL_REFERENCE_PRICE": 64,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 19,
+        "NO_START_REFERENCE_WITHIN_10S": 20
+      },
+      "session_date": "2026-01-08"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1294,
+      "equal_price_count": 48,
+      "binary_eligible_rows": 1246,
+      "up_count": 617,
+      "down_count": 629,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1246,
+        "EQUAL_REFERENCE_PRICE": 48,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 34,
+        "NO_START_REFERENCE_WITHIN_10S": 37
+      },
+      "session_date": "2026-01-09"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1344,
+      "equal_price_count": 59,
+      "binary_eligible_rows": 1285,
+      "up_count": 678,
+      "down_count": 607,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1285,
+        "EQUAL_REFERENCE_PRICE": 59,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 11,
+        "NO_START_REFERENCE_WITHIN_10S": 10
+      },
+      "session_date": "2026-01-12"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1269,
+      "equal_price_count": 47,
+      "binary_eligible_rows": 1222,
+      "up_count": 571,
+      "down_count": 651,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1222,
+        "EQUAL_REFERENCE_PRICE": 47,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 46,
+        "NO_START_REFERENCE_WITHIN_10S": 50
+      },
+      "session_date": "2026-01-13"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1293,
+      "equal_price_count": 49,
+      "binary_eligible_rows": 1244,
+      "up_count": 530,
+      "down_count": 714,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1244,
+        "EQUAL_REFERENCE_PRICE": 49,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 36,
+        "NO_START_REFERENCE_WITHIN_10S": 36
+      },
+      "session_date": "2026-01-14"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1332,
+      "equal_price_count": 57,
+      "binary_eligible_rows": 1275,
+      "up_count": 689,
+      "down_count": 586,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1275,
+        "EQUAL_REFERENCE_PRICE": 57,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 18,
+        "NO_START_REFERENCE_WITHIN_10S": 15
+      },
+      "session_date": "2026-01-15"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1296,
+      "equal_price_count": 53,
+      "binary_eligible_rows": 1243,
+      "up_count": 658,
+      "down_count": 585,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1243,
+        "EQUAL_REFERENCE_PRICE": 53,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 33,
+        "NO_START_REFERENCE_WITHIN_10S": 36
+      },
+      "session_date": "2026-01-16"
+    },
+    {
+      "candidate_rows": 1140,
+      "structurally_valid_paths": 1125,
+      "reference_pairs_within_10s": 1103,
+      "equal_price_count": 22,
+      "binary_eligible_rows": 1081,
+      "up_count": 515,
+      "down_count": 566,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1081,
+        "EQUAL_REFERENCE_PRICE": 22,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 11,
+        "NO_START_REFERENCE_WITHIN_10S": 11
+      },
+      "session_date": "2026-01-19"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1352,
+      "equal_price_count": 44,
+      "binary_eligible_rows": 1308,
+      "up_count": 534,
+      "down_count": 774,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1308,
+        "EQUAL_REFERENCE_PRICE": 44,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 7,
+        "NO_START_REFERENCE_WITHIN_10S": 6
+      },
+      "session_date": "2026-01-20"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1340,
+      "equal_price_count": 39,
+      "binary_eligible_rows": 1301,
+      "up_count": 665,
+      "down_count": 636,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1301,
+        "EQUAL_REFERENCE_PRICE": 39,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 12,
+        "NO_START_REFERENCE_WITHIN_10S": 13
+      },
+      "session_date": "2026-01-21"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1344,
+      "equal_price_count": 40,
+      "binary_eligible_rows": 1304,
+      "up_count": 711,
+      "down_count": 593,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1304,
+        "EQUAL_REFERENCE_PRICE": 40,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 10,
+        "NO_START_REFERENCE_WITHIN_10S": 11
+      },
+      "session_date": "2026-01-22"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1332,
+      "equal_price_count": 56,
+      "binary_eligible_rows": 1276,
+      "up_count": 646,
+      "down_count": 630,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1276,
+        "EQUAL_REFERENCE_PRICE": 56,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 17,
+        "NO_START_REFERENCE_WITHIN_10S": 16
+      },
+      "session_date": "2026-01-23"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 50,
+      "binary_eligible_rows": 1308,
+      "up_count": 743,
+      "down_count": 565,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1308,
+        "EQUAL_REFERENCE_PRICE": 50,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2026-01-26"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1319,
+      "equal_price_count": 57,
+      "binary_eligible_rows": 1262,
+      "up_count": 716,
+      "down_count": 546,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1262,
+        "EQUAL_REFERENCE_PRICE": 57,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 22,
+        "NO_START_REFERENCE_WITHIN_10S": 24
+      },
+      "session_date": "2026-01-27"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1313,
+      "equal_price_count": 61,
+      "binary_eligible_rows": 1252,
+      "up_count": 627,
+      "down_count": 625,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1252,
+        "EQUAL_REFERENCE_PRICE": 61,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 26,
+        "NO_START_REFERENCE_WITHIN_10S": 26
+      },
+      "session_date": "2026-01-28"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1350,
+      "equal_price_count": 30,
+      "binary_eligible_rows": 1320,
+      "up_count": 717,
+      "down_count": 603,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1320,
+        "EQUAL_REFERENCE_PRICE": 30,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 8,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-01-29"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 16,
+      "binary_eligible_rows": 1348,
+      "up_count": 582,
+      "down_count": 766,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1348,
+        "EQUAL_REFERENCE_PRICE": 16,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-01-30"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 26,
+      "binary_eligible_rows": 1338,
+      "up_count": 713,
+      "down_count": 625,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1338,
+        "EQUAL_REFERENCE_PRICE": 26,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-02-02"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1346,
+      "equal_price_count": 41,
+      "binary_eligible_rows": 1305,
+      "up_count": 557,
+      "down_count": 748,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1305,
+        "EQUAL_REFERENCE_PRICE": 41,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 10,
+        "NO_START_REFERENCE_WITHIN_10S": 9
+      },
+      "session_date": "2026-02-03"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1336,
+      "equal_price_count": 26,
+      "binary_eligible_rows": 1310,
+      "up_count": 696,
+      "down_count": 614,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1310,
+        "EQUAL_REFERENCE_PRICE": 26,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 15,
+        "NO_START_REFERENCE_WITHIN_10S": 14
+      },
+      "session_date": "2026-02-04"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 17,
+      "binary_eligible_rows": 1347,
+      "up_count": 589,
+      "down_count": 758,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1347,
+        "EQUAL_REFERENCE_PRICE": 17,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-02-05"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1332,
+      "up_count": 728,
+      "down_count": 604,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1332,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-02-06"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 31,
+      "binary_eligible_rows": 1331,
+      "up_count": 600,
+      "down_count": 731,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1331,
+        "EQUAL_REFERENCE_PRICE": 31,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-02-09"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1337,
+      "equal_price_count": 28,
+      "binary_eligible_rows": 1309,
+      "up_count": 674,
+      "down_count": 635,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1309,
+        "EQUAL_REFERENCE_PRICE": 28,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 14,
+        "NO_START_REFERENCE_WITHIN_10S": 14
+      },
+      "session_date": "2026-02-10"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1314,
+      "equal_price_count": 39,
+      "binary_eligible_rows": 1275,
+      "up_count": 665,
+      "down_count": 610,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1275,
+        "EQUAL_REFERENCE_PRICE": 39,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 25,
+        "NO_START_REFERENCE_WITHIN_10S": 26
+      },
+      "session_date": "2026-02-11"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1334,
+      "equal_price_count": 39,
+      "binary_eligible_rows": 1295,
+      "up_count": 635,
+      "down_count": 660,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1295,
+        "EQUAL_REFERENCE_PRICE": 39,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 16,
+        "NO_START_REFERENCE_WITHIN_10S": 15
+      },
+      "session_date": "2026-02-12"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 18,
+      "binary_eligible_rows": 1340,
+      "up_count": 639,
+      "down_count": 701,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1340,
+        "EQUAL_REFERENCE_PRICE": 18,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2026-02-13"
+    },
+    {
+      "candidate_rows": 1140,
+      "structurally_valid_paths": 1125,
+      "reference_pairs_within_10s": 1094,
+      "equal_price_count": 53,
+      "binary_eligible_rows": 1041,
+      "up_count": 518,
+      "down_count": 523,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1041,
+        "EQUAL_REFERENCE_PRICE": 53,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 16,
+        "NO_START_REFERENCE_WITHIN_10S": 15
+      },
+      "session_date": "2026-02-16"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 24,
+      "binary_eligible_rows": 1338,
+      "up_count": 638,
+      "down_count": 700,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1338,
+        "EQUAL_REFERENCE_PRICE": 24,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-02-17"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1349,
+      "equal_price_count": 45,
+      "binary_eligible_rows": 1304,
+      "up_count": 674,
+      "down_count": 630,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1304,
+        "EQUAL_REFERENCE_PRICE": 45,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-02-18"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1350,
+      "equal_price_count": 34,
+      "binary_eligible_rows": 1316,
+      "up_count": 628,
+      "down_count": 688,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1316,
+        "EQUAL_REFERENCE_PRICE": 34,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 6
+      },
+      "session_date": "2026-02-19"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1341,
+      "equal_price_count": 36,
+      "binary_eligible_rows": 1305,
+      "up_count": 695,
+      "down_count": 610,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1305,
+        "EQUAL_REFERENCE_PRICE": 36,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 12,
+        "NO_START_REFERENCE_WITHIN_10S": 12
+      },
+      "session_date": "2026-02-20"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 33,
+      "binary_eligible_rows": 1323,
+      "up_count": 621,
+      "down_count": 702,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1323,
+        "EQUAL_REFERENCE_PRICE": 33,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-02-23"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 33,
+      "binary_eligible_rows": 1327,
+      "up_count": 685,
+      "down_count": 642,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1327,
+        "EQUAL_REFERENCE_PRICE": 33,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-02-24"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1342,
+      "equal_price_count": 62,
+      "binary_eligible_rows": 1280,
+      "up_count": 757,
+      "down_count": 523,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1280,
+        "EQUAL_REFERENCE_PRICE": 62,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 12,
+        "NO_START_REFERENCE_WITHIN_10S": 11
+      },
+      "session_date": "2026-02-25"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 39,
+      "binary_eligible_rows": 1317,
+      "up_count": 657,
+      "down_count": 660,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1317,
+        "EQUAL_REFERENCE_PRICE": 39,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-02-26"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 28,
+      "binary_eligible_rows": 1328,
+      "up_count": 660,
+      "down_count": 668,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1328,
+        "EQUAL_REFERENCE_PRICE": 28,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-02-27"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 23,
+      "binary_eligible_rows": 1341,
+      "up_count": 635,
+      "down_count": 706,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1341,
+        "EQUAL_REFERENCE_PRICE": 23,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-02"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 18,
+      "binary_eligible_rows": 1346,
+      "up_count": 539,
+      "down_count": 807,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1346,
+        "EQUAL_REFERENCE_PRICE": 18,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-03"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 22,
+      "binary_eligible_rows": 1342,
+      "up_count": 708,
+      "down_count": 634,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1342,
+        "EQUAL_REFERENCE_PRICE": 22,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-04"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 20,
+      "binary_eligible_rows": 1344,
+      "up_count": 593,
+      "down_count": 751,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1344,
+        "EQUAL_REFERENCE_PRICE": 20,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-05"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 25,
+      "binary_eligible_rows": 1339,
+      "up_count": 626,
+      "down_count": 713,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1339,
+        "EQUAL_REFERENCE_PRICE": 25,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-06"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 23,
+      "binary_eligible_rows": 1341,
+      "up_count": 744,
+      "down_count": 597,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1341,
+        "EQUAL_REFERENCE_PRICE": 23,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-09"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 10,
+      "binary_eligible_rows": 1354,
+      "up_count": 688,
+      "down_count": 666,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1354,
+        "EQUAL_REFERENCE_PRICE": 10,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-10"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 25,
+      "binary_eligible_rows": 1335,
+      "up_count": 682,
+      "down_count": 653,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1335,
+        "EQUAL_REFERENCE_PRICE": 25,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-03-11"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 30,
+      "binary_eligible_rows": 1334,
+      "up_count": 619,
+      "down_count": 715,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1334,
+        "EQUAL_REFERENCE_PRICE": 30,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-12"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 23,
+      "binary_eligible_rows": 1339,
+      "up_count": 597,
+      "down_count": 742,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1339,
+        "EQUAL_REFERENCE_PRICE": 23,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-13"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1361,
+      "equal_price_count": 34,
+      "binary_eligible_rows": 1327,
+      "up_count": 739,
+      "down_count": 588,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1327,
+        "EQUAL_REFERENCE_PRICE": 34,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-03-16"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1308,
+      "equal_price_count": 28,
+      "binary_eligible_rows": 1280,
+      "up_count": 690,
+      "down_count": 590,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1280,
+        "EQUAL_REFERENCE_PRICE": 28,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 28,
+        "NO_START_REFERENCE_WITHIN_10S": 29
+      },
+      "session_date": "2026-03-17"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1350,
+      "reference_pairs_within_10s": 1305,
+      "equal_price_count": 23,
+      "binary_eligible_rows": 1282,
+      "up_count": 639,
+      "down_count": 643,
+      "eligibility_reason_counts": {
+        "CROSSES_CONTRACT_ROLL": 15,
+        "ELIGIBLE": 1282,
+        "EQUAL_REFERENCE_PRICE": 23,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 22,
+        "NO_START_REFERENCE_WITHIN_10S": 23
+      },
+      "session_date": "2026-03-18"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 20,
+      "binary_eligible_rows": 1344,
+      "up_count": 640,
+      "down_count": 704,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1344,
+        "EQUAL_REFERENCE_PRICE": 20,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-19"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 22,
+      "binary_eligible_rows": 1336,
+      "up_count": 587,
+      "down_count": 749,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1336,
+        "EQUAL_REFERENCE_PRICE": 22,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2026-03-20"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 14,
+      "binary_eligible_rows": 1350,
+      "up_count": 641,
+      "down_count": 709,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1350,
+        "EQUAL_REFERENCE_PRICE": 14,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-23"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 12,
+      "binary_eligible_rows": 1352,
+      "up_count": 694,
+      "down_count": 658,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1352,
+        "EQUAL_REFERENCE_PRICE": 12,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-24"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 14,
+      "binary_eligible_rows": 1348,
+      "up_count": 659,
+      "down_count": 689,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1348,
+        "EQUAL_REFERENCE_PRICE": 14,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-25"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1332,
+      "up_count": 530,
+      "down_count": 802,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1332,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-26"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 22,
+      "binary_eligible_rows": 1340,
+      "up_count": 549,
+      "down_count": 791,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1340,
+        "EQUAL_REFERENCE_PRICE": 22,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-27"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 29,
+      "binary_eligible_rows": 1335,
+      "up_count": 715,
+      "down_count": 620,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1335,
+        "EQUAL_REFERENCE_PRICE": 29,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-30"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 16,
+      "binary_eligible_rows": 1348,
+      "up_count": 704,
+      "down_count": 644,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1348,
+        "EQUAL_REFERENCE_PRICE": 16,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-03-31"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 28,
+      "binary_eligible_rows": 1334,
+      "up_count": 784,
+      "down_count": 550,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1334,
+        "EQUAL_REFERENCE_PRICE": 28,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-04-01"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 37,
+      "binary_eligible_rows": 1327,
+      "up_count": 627,
+      "down_count": 700,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1327,
+        "EQUAL_REFERENCE_PRICE": 37,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-04-02"
+    },
+    {
+      "candidate_rows": 915,
+      "structurally_valid_paths": 900,
+      "reference_pairs_within_10s": 799,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 767,
+      "up_count": 323,
+      "down_count": 444,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 767,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 50,
+        "NO_START_REFERENCE_WITHIN_10S": 51
+      },
+      "session_date": "2026-04-03"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1330,
+      "up_count": 748,
+      "down_count": 582,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1330,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-04-06"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 29,
+      "binary_eligible_rows": 1331,
+      "up_count": 656,
+      "down_count": 675,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1331,
+        "EQUAL_REFERENCE_PRICE": 29,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-04-07"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 24,
+      "binary_eligible_rows": 1340,
+      "up_count": 721,
+      "down_count": 619,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1340,
+        "EQUAL_REFERENCE_PRICE": 24,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-04-08"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 45,
+      "binary_eligible_rows": 1313,
+      "up_count": 688,
+      "down_count": 625,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1313,
+        "EQUAL_REFERENCE_PRICE": 45,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2026-04-09"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1336,
+      "equal_price_count": 54,
+      "binary_eligible_rows": 1282,
+      "up_count": 668,
+      "down_count": 614,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1282,
+        "EQUAL_REFERENCE_PRICE": 54,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 15,
+        "NO_START_REFERENCE_WITHIN_10S": 14
+      },
+      "session_date": "2026-04-10"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1343,
+      "equal_price_count": 36,
+      "binary_eligible_rows": 1307,
+      "up_count": 817,
+      "down_count": 490,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1307,
+        "EQUAL_REFERENCE_PRICE": 36,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 11,
+        "NO_START_REFERENCE_WITHIN_10S": 11
+      },
+      "session_date": "2026-04-13"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1319,
+      "equal_price_count": 49,
+      "binary_eligible_rows": 1270,
+      "up_count": 715,
+      "down_count": 555,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1270,
+        "EQUAL_REFERENCE_PRICE": 49,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 22,
+        "NO_START_REFERENCE_WITHIN_10S": 24
+      },
+      "session_date": "2026-04-14"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1328,
+      "equal_price_count": 53,
+      "binary_eligible_rows": 1275,
+      "up_count": 746,
+      "down_count": 529,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1275,
+        "EQUAL_REFERENCE_PRICE": 53,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 19,
+        "NO_START_REFERENCE_WITHIN_10S": 18
+      },
+      "session_date": "2026-04-15"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1326,
+      "equal_price_count": 44,
+      "binary_eligible_rows": 1282,
+      "up_count": 712,
+      "down_count": 570,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1282,
+        "EQUAL_REFERENCE_PRICE": 44,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 20,
+        "NO_START_REFERENCE_WITHIN_10S": 19
+      },
+      "session_date": "2026-04-16"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1333,
+      "equal_price_count": 53,
+      "binary_eligible_rows": 1280,
+      "up_count": 768,
+      "down_count": 512,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1280,
+        "EQUAL_REFERENCE_PRICE": 53,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 16,
+        "NO_START_REFERENCE_WITHIN_10S": 16
+      },
+      "session_date": "2026-04-17"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 48,
+      "binary_eligible_rows": 1310,
+      "up_count": 702,
+      "down_count": 608,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1310,
+        "EQUAL_REFERENCE_PRICE": 48,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2026-04-20"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1310,
+      "equal_price_count": 36,
+      "binary_eligible_rows": 1274,
+      "up_count": 613,
+      "down_count": 661,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1274,
+        "EQUAL_REFERENCE_PRICE": 36,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 28,
+        "NO_START_REFERENCE_WITHIN_10S": 27
+      },
+      "session_date": "2026-04-21"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1344,
+      "equal_price_count": 35,
+      "binary_eligible_rows": 1309,
+      "up_count": 655,
+      "down_count": 654,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1309,
+        "EQUAL_REFERENCE_PRICE": 35,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 11,
+        "NO_START_REFERENCE_WITHIN_10S": 10
+      },
+      "session_date": "2026-04-22"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1350,
+      "equal_price_count": 37,
+      "binary_eligible_rows": 1313,
+      "up_count": 638,
+      "down_count": 675,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1313,
+        "EQUAL_REFERENCE_PRICE": 37,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 8,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-04-23"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 42,
+      "binary_eligible_rows": 1318,
+      "up_count": 709,
+      "down_count": 609,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1318,
+        "EQUAL_REFERENCE_PRICE": 42,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-04-24"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 55,
+      "binary_eligible_rows": 1301,
+      "up_count": 709,
+      "down_count": 592,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1301,
+        "EQUAL_REFERENCE_PRICE": 55,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-04-27"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1348,
+      "equal_price_count": 42,
+      "binary_eligible_rows": 1306,
+      "up_count": 606,
+      "down_count": 700,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1306,
+        "EQUAL_REFERENCE_PRICE": 42,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 8
+      },
+      "session_date": "2026-04-28"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1339,
+      "equal_price_count": 38,
+      "binary_eligible_rows": 1301,
+      "up_count": 645,
+      "down_count": 656,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1301,
+        "EQUAL_REFERENCE_PRICE": 38,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 13,
+        "NO_START_REFERENCE_WITHIN_10S": 13
+      },
+      "session_date": "2026-04-29"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1330,
+      "up_count": 780,
+      "down_count": 550,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1330,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-04-30"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1314,
+      "equal_price_count": 43,
+      "binary_eligible_rows": 1271,
+      "up_count": 616,
+      "down_count": 655,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1271,
+        "EQUAL_REFERENCE_PRICE": 43,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 26,
+        "NO_START_REFERENCE_WITHIN_10S": 25
+      },
+      "session_date": "2026-05-01"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1351,
+      "equal_price_count": 44,
+      "binary_eligible_rows": 1307,
+      "up_count": 674,
+      "down_count": 633,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1307,
+        "EQUAL_REFERENCE_PRICE": 44,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 8,
+        "NO_START_REFERENCE_WITHIN_10S": 6
+      },
+      "session_date": "2026-05-04"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1335,
+      "equal_price_count": 62,
+      "binary_eligible_rows": 1273,
+      "up_count": 752,
+      "down_count": 521,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1273,
+        "EQUAL_REFERENCE_PRICE": 62,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 15,
+        "NO_START_REFERENCE_WITHIN_10S": 15
+      },
+      "session_date": "2026-05-05"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1351,
+      "equal_price_count": 39,
+      "binary_eligible_rows": 1312,
+      "up_count": 741,
+      "down_count": 571,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1312,
+        "EQUAL_REFERENCE_PRICE": 39,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 7,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-05-06"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1350,
+      "equal_price_count": 33,
+      "binary_eligible_rows": 1317,
+      "up_count": 683,
+      "down_count": 634,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1317,
+        "EQUAL_REFERENCE_PRICE": 33,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 8,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-05-07"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 56,
+      "binary_eligible_rows": 1300,
+      "up_count": 802,
+      "down_count": 498,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1300,
+        "EQUAL_REFERENCE_PRICE": 56,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-05-08"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1336,
+      "equal_price_count": 48,
+      "binary_eligible_rows": 1288,
+      "up_count": 724,
+      "down_count": 564,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1288,
+        "EQUAL_REFERENCE_PRICE": 48,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 15,
+        "NO_START_REFERENCE_WITHIN_10S": 14
+      },
+      "session_date": "2026-05-11"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1342,
+      "equal_price_count": 41,
+      "binary_eligible_rows": 1301,
+      "up_count": 614,
+      "down_count": 687,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1301,
+        "EQUAL_REFERENCE_PRICE": 41,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 12,
+        "NO_START_REFERENCE_WITHIN_10S": 11
+      },
+      "session_date": "2026-05-12"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1345,
+      "equal_price_count": 46,
+      "binary_eligible_rows": 1299,
+      "up_count": 733,
+      "down_count": 566,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1299,
+        "EQUAL_REFERENCE_PRICE": 46,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 11,
+        "NO_START_REFERENCE_WITHIN_10S": 9
+      },
+      "session_date": "2026-05-13"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 29,
+      "binary_eligible_rows": 1327,
+      "up_count": 716,
+      "down_count": 611,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1327,
+        "EQUAL_REFERENCE_PRICE": 29,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-05-14"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1358,
+      "equal_price_count": 25,
+      "binary_eligible_rows": 1333,
+      "up_count": 559,
+      "down_count": 774,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1333,
+        "EQUAL_REFERENCE_PRICE": 25,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2026-05-15"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 19,
+      "binary_eligible_rows": 1345,
+      "up_count": 636,
+      "down_count": 709,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1345,
+        "EQUAL_REFERENCE_PRICE": 19,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-05-18"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 21,
+      "binary_eligible_rows": 1343,
+      "up_count": 590,
+      "down_count": 753,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1343,
+        "EQUAL_REFERENCE_PRICE": 21,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-05-19"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 20,
+      "binary_eligible_rows": 1342,
+      "up_count": 716,
+      "down_count": 626,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1342,
+        "EQUAL_REFERENCE_PRICE": 20,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-05-20"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 25,
+      "binary_eligible_rows": 1337,
+      "up_count": 757,
+      "down_count": 580,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1337,
+        "EQUAL_REFERENCE_PRICE": 25,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-05-21"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1354,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1322,
+      "up_count": 683,
+      "down_count": 639,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1322,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 6,
+        "NO_START_REFERENCE_WITHIN_10S": 5
+      },
+      "session_date": "2026-05-22"
+    },
+    {
+      "candidate_rows": 1140,
+      "structurally_valid_paths": 1125,
+      "reference_pairs_within_10s": 1055,
+      "equal_price_count": 53,
+      "binary_eligible_rows": 1002,
+      "up_count": 565,
+      "down_count": 437,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1002,
+        "EQUAL_REFERENCE_PRICE": 53,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 32,
+        "NO_START_REFERENCE_WITHIN_10S": 38
+      },
+      "session_date": "2026-05-25"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1338,
+      "equal_price_count": 44,
+      "binary_eligible_rows": 1294,
+      "up_count": 638,
+      "down_count": 656,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1294,
+        "EQUAL_REFERENCE_PRICE": 44,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 14,
+        "NO_START_REFERENCE_WITHIN_10S": 13
+      },
+      "session_date": "2026-05-26"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1346,
+      "equal_price_count": 44,
+      "binary_eligible_rows": 1302,
+      "up_count": 718,
+      "down_count": 584,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1302,
+        "EQUAL_REFERENCE_PRICE": 44,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 10,
+        "NO_START_REFERENCE_WITHIN_10S": 9
+      },
+      "session_date": "2026-05-27"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 42,
+      "binary_eligible_rows": 1314,
+      "up_count": 649,
+      "down_count": 665,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1314,
+        "EQUAL_REFERENCE_PRICE": 42,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-05-28"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1334,
+      "equal_price_count": 61,
+      "binary_eligible_rows": 1273,
+      "up_count": 650,
+      "down_count": 623,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1273,
+        "EQUAL_REFERENCE_PRICE": 61,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 16,
+        "NO_START_REFERENCE_WITHIN_10S": 15
+      },
+      "session_date": "2026-05-29"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1352,
+      "equal_price_count": 59,
+      "binary_eligible_rows": 1293,
+      "up_count": 678,
+      "down_count": 615,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1293,
+        "EQUAL_REFERENCE_PRICE": 59,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 7,
+        "NO_START_REFERENCE_WITHIN_10S": 6
+      },
+      "session_date": "2026-06-01"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 57,
+      "binary_eligible_rows": 1305,
+      "up_count": 702,
+      "down_count": 603,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1305,
+        "EQUAL_REFERENCE_PRICE": 57,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-02"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1330,
+      "equal_price_count": 46,
+      "binary_eligible_rows": 1284,
+      "up_count": 553,
+      "down_count": 731,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1284,
+        "EQUAL_REFERENCE_PRICE": 46,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 18,
+        "NO_START_REFERENCE_WITHIN_10S": 17
+      },
+      "session_date": "2026-06-03"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 37,
+      "binary_eligible_rows": 1323,
+      "up_count": 727,
+      "down_count": 596,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1323,
+        "EQUAL_REFERENCE_PRICE": 37,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-06-04"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 25,
+      "binary_eligible_rows": 1337,
+      "up_count": 508,
+      "down_count": 829,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1337,
+        "EQUAL_REFERENCE_PRICE": 25,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-05"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 29,
+      "binary_eligible_rows": 1335,
+      "up_count": 695,
+      "down_count": 640,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1335,
+        "EQUAL_REFERENCE_PRICE": 29,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-08"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 25,
+      "binary_eligible_rows": 1337,
+      "up_count": 757,
+      "down_count": 580,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1337,
+        "EQUAL_REFERENCE_PRICE": 25,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-09"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 24,
+      "binary_eligible_rows": 1338,
+      "up_count": 568,
+      "down_count": 770,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1338,
+        "EQUAL_REFERENCE_PRICE": 24,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-10"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 27,
+      "binary_eligible_rows": 1337,
+      "up_count": 738,
+      "down_count": 599,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1337,
+        "EQUAL_REFERENCE_PRICE": 27,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-11"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 27,
+      "binary_eligible_rows": 1337,
+      "up_count": 675,
+      "down_count": 662,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1337,
+        "EQUAL_REFERENCE_PRICE": 27,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-12"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1348,
+      "equal_price_count": 54,
+      "binary_eligible_rows": 1294,
+      "up_count": 765,
+      "down_count": 529,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1294,
+        "EQUAL_REFERENCE_PRICE": 54,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 8
+      },
+      "session_date": "2026-06-15"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1261,
+      "equal_price_count": 52,
+      "binary_eligible_rows": 1209,
+      "up_count": 590,
+      "down_count": 619,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1209,
+        "EQUAL_REFERENCE_PRICE": 52,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 50,
+        "NO_START_REFERENCE_WITHIN_10S": 54
+      },
+      "session_date": "2026-06-16"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1350,
+      "reference_pairs_within_10s": 1299,
+      "equal_price_count": 35,
+      "binary_eligible_rows": 1264,
+      "up_count": 663,
+      "down_count": 601,
+      "eligibility_reason_counts": {
+        "CROSSES_CONTRACT_ROLL": 15,
+        "ELIGIBLE": 1264,
+        "EQUAL_REFERENCE_PRICE": 35,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 25,
+        "NO_START_REFERENCE_WITHIN_10S": 26
+      },
+      "session_date": "2026-06-17"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 19,
+      "binary_eligible_rows": 1343,
+      "up_count": 727,
+      "down_count": 616,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1343,
+        "EQUAL_REFERENCE_PRICE": 19,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-18"
+    },
+    {
+      "candidate_rows": 1140,
+      "structurally_valid_paths": 1125,
+      "reference_pairs_within_10s": 1118,
+      "equal_price_count": 29,
+      "binary_eligible_rows": 1089,
+      "up_count": 518,
+      "down_count": 571,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1089,
+        "EQUAL_REFERENCE_PRICE": 29,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2026-06-19"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 24,
+      "binary_eligible_rows": 1332,
+      "up_count": 681,
+      "down_count": 651,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1332,
+        "EQUAL_REFERENCE_PRICE": 24,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-06-22"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 16,
+      "binary_eligible_rows": 1348,
+      "up_count": 523,
+      "down_count": 825,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1348,
+        "EQUAL_REFERENCE_PRICE": 16,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-23"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 19,
+      "binary_eligible_rows": 1343,
+      "up_count": 664,
+      "down_count": 679,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1343,
+        "EQUAL_REFERENCE_PRICE": 19,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-24"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 28,
+      "binary_eligible_rows": 1334,
+      "up_count": 652,
+      "down_count": 682,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1334,
+        "EQUAL_REFERENCE_PRICE": 28,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-25"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 16,
+      "binary_eligible_rows": 1348,
+      "up_count": 605,
+      "down_count": 743,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1348,
+        "EQUAL_REFERENCE_PRICE": 16,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-26"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 26,
+      "binary_eligible_rows": 1338,
+      "up_count": 762,
+      "down_count": 576,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1338,
+        "EQUAL_REFERENCE_PRICE": 26,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-06-29"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1352,
+      "equal_price_count": 29,
+      "binary_eligible_rows": 1323,
+      "up_count": 729,
+      "down_count": 594,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1323,
+        "EQUAL_REFERENCE_PRICE": 29,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 7,
+        "NO_START_REFERENCE_WITHIN_10S": 6
+      },
+      "session_date": "2026-06-30"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 30,
+      "binary_eligible_rows": 1332,
+      "up_count": 631,
+      "down_count": 701,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1332,
+        "EQUAL_REFERENCE_PRICE": 30,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-07-01"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 21,
+      "binary_eligible_rows": 1341,
+      "up_count": 658,
+      "down_count": 683,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1341,
+        "EQUAL_REFERENCE_PRICE": 21,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-07-02"
+    },
+    {
+      "candidate_rows": 1140,
+      "structurally_valid_paths": 1125,
+      "reference_pairs_within_10s": 1107,
+      "equal_price_count": 50,
+      "binary_eligible_rows": 1057,
+      "up_count": 570,
+      "down_count": 487,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1057,
+        "EQUAL_REFERENCE_PRICE": 50,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 9
+      },
+      "session_date": "2026-07-03"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1350,
+      "equal_price_count": 36,
+      "binary_eligible_rows": 1314,
+      "up_count": 710,
+      "down_count": 604,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1314,
+        "EQUAL_REFERENCE_PRICE": 36,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 8,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-07-06"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 39,
+      "binary_eligible_rows": 1317,
+      "up_count": 602,
+      "down_count": 715,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1317,
+        "EQUAL_REFERENCE_PRICE": 39,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-07-07"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 26,
+      "binary_eligible_rows": 1336,
+      "up_count": 657,
+      "down_count": 679,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1336,
+        "EQUAL_REFERENCE_PRICE": 26,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-07-08"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 36,
+      "binary_eligible_rows": 1326,
+      "up_count": 761,
+      "down_count": 565,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1326,
+        "EQUAL_REFERENCE_PRICE": 36,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-07-09"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 49,
+      "binary_eligible_rows": 1307,
+      "up_count": 751,
+      "down_count": 556,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1307,
+        "EQUAL_REFERENCE_PRICE": 49,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-07-10"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 31,
+      "binary_eligible_rows": 1329,
+      "up_count": 567,
+      "down_count": 762,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1329,
+        "EQUAL_REFERENCE_PRICE": 31,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-07-13"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 34,
+      "binary_eligible_rows": 1326,
+      "up_count": 657,
+      "down_count": 669,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1326,
+        "EQUAL_REFERENCE_PRICE": 34,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-07-14"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1342,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1310,
+      "up_count": 719,
+      "down_count": 591,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1310,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 12,
+        "NO_START_REFERENCE_WITHIN_10S": 11
+      },
+      "session_date": "2026-07-15"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1328,
+      "up_count": 572,
+      "down_count": 756,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1328,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-07-16"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 23,
+      "binary_eligible_rows": 1339,
+      "up_count": 540,
+      "down_count": 799,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1339,
+        "EQUAL_REFERENCE_PRICE": 23,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-07-17"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 29,
+      "binary_eligible_rows": 1331,
+      "up_count": 645,
+      "down_count": 686,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1331,
+        "EQUAL_REFERENCE_PRICE": 29,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-07-20"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1360,
+      "equal_price_count": 30,
+      "binary_eligible_rows": 1330,
+      "up_count": 743,
+      "down_count": 587,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1330,
+        "EQUAL_REFERENCE_PRICE": 30,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 3,
+        "NO_START_REFERENCE_WITHIN_10S": 2
+      },
+      "session_date": "2026-07-21"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1351,
+      "equal_price_count": 33,
+      "binary_eligible_rows": 1318,
+      "up_count": 620,
+      "down_count": 698,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1318,
+        "EQUAL_REFERENCE_PRICE": 33,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 7,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-07-22"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 21,
+      "binary_eligible_rows": 1343,
+      "up_count": 585,
+      "down_count": 758,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1343,
+        "EQUAL_REFERENCE_PRICE": 21,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-07-23"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 34,
+      "binary_eligible_rows": 1322,
+      "up_count": 643,
+      "down_count": 679,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1322,
+        "EQUAL_REFERENCE_PRICE": 34,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-07-24"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1350,
+      "equal_price_count": 27,
+      "binary_eligible_rows": 1323,
+      "up_count": 699,
+      "down_count": 624,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1323,
+        "EQUAL_REFERENCE_PRICE": 27,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 8,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-07-27"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1362,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1330,
+      "up_count": 640,
+      "down_count": 690,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1330,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 2,
+        "NO_START_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-07-28"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 17,
+      "binary_eligible_rows": 1347,
+      "up_count": 579,
+      "down_count": 768,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1347,
+        "EQUAL_REFERENCE_PRICE": 17,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-07-29"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 22,
+      "binary_eligible_rows": 1342,
+      "up_count": 751,
+      "down_count": 591,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1342,
+        "EQUAL_REFERENCE_PRICE": 22,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-07-30"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1364,
+      "equal_price_count": 34,
+      "binary_eligible_rows": 1330,
+      "up_count": 759,
+      "down_count": 571,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1330,
+        "EQUAL_REFERENCE_PRICE": 34,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 1
+      },
+      "session_date": "2026-07-31"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1348,
+      "equal_price_count": 51,
+      "binary_eligible_rows": 1297,
+      "up_count": 770,
+      "down_count": 527,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1297,
+        "EQUAL_REFERENCE_PRICE": 51,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 8
+      },
+      "session_date": "2026-08-03"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1341,
+      "equal_price_count": 55,
+      "binary_eligible_rows": 1286,
+      "up_count": 795,
+      "down_count": 491,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1286,
+        "EQUAL_REFERENCE_PRICE": 55,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 12,
+        "NO_START_REFERENCE_WITHIN_10S": 12
+      },
+      "session_date": "2026-08-04"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1350,
+      "equal_price_count": 43,
+      "binary_eligible_rows": 1307,
+      "up_count": 721,
+      "down_count": 586,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1307,
+        "EQUAL_REFERENCE_PRICE": 43,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 8,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-08-05"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1350,
+      "equal_price_count": 33,
+      "binary_eligible_rows": 1317,
+      "up_count": 633,
+      "down_count": 684,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1317,
+        "EQUAL_REFERENCE_PRICE": 33,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 8,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-08-06"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1331,
+      "equal_price_count": 41,
+      "binary_eligible_rows": 1290,
+      "up_count": 693,
+      "down_count": 597,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1290,
+        "EQUAL_REFERENCE_PRICE": 41,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 16,
+        "NO_START_REFERENCE_WITHIN_10S": 18
+      },
+      "session_date": "2026-08-07"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1340,
+      "equal_price_count": 43,
+      "binary_eligible_rows": 1297,
+      "up_count": 703,
+      "down_count": 594,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1297,
+        "EQUAL_REFERENCE_PRICE": 43,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 13,
+        "NO_START_REFERENCE_WITHIN_10S": 12
+      },
+      "session_date": "2026-08-10"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1317,
+      "equal_price_count": 47,
+      "binary_eligible_rows": 1270,
+      "up_count": 631,
+      "down_count": 639,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1270,
+        "EQUAL_REFERENCE_PRICE": 47,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 23,
+        "NO_START_REFERENCE_WITHIN_10S": 25
+      },
+      "session_date": "2026-08-11"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1267,
+      "equal_price_count": 44,
+      "binary_eligible_rows": 1223,
+      "up_count": 691,
+      "down_count": 532,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1223,
+        "EQUAL_REFERENCE_PRICE": 44,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 48,
+        "NO_START_REFERENCE_WITHIN_10S": 50
+      },
+      "session_date": "2026-08-12"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1281,
+      "equal_price_count": 50,
+      "binary_eligible_rows": 1231,
+      "up_count": 727,
+      "down_count": 504,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1231,
+        "EQUAL_REFERENCE_PRICE": 50,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 42,
+        "NO_START_REFERENCE_WITHIN_10S": 42
+      },
+      "session_date": "2026-08-13"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1257,
+      "equal_price_count": 70,
+      "binary_eligible_rows": 1187,
+      "up_count": 547,
+      "down_count": 640,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1187,
+        "EQUAL_REFERENCE_PRICE": 70,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 49,
+        "NO_START_REFERENCE_WITHIN_10S": 59
+      },
+      "session_date": "2026-08-14"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1279,
+      "equal_price_count": 68,
+      "binary_eligible_rows": 1211,
+      "up_count": 566,
+      "down_count": 645,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1211,
+        "EQUAL_REFERENCE_PRICE": 68,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 41,
+        "NO_START_REFERENCE_WITHIN_10S": 45
+      },
+      "session_date": "2026-08-17"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1343,
+      "equal_price_count": 47,
+      "binary_eligible_rows": 1296,
+      "up_count": 549,
+      "down_count": 747,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1296,
+        "EQUAL_REFERENCE_PRICE": 47,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 11,
+        "NO_START_REFERENCE_WITHIN_10S": 11
+      },
+      "session_date": "2026-08-18"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1342,
+      "equal_price_count": 52,
+      "binary_eligible_rows": 1290,
+      "up_count": 631,
+      "down_count": 659,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1290,
+        "EQUAL_REFERENCE_PRICE": 52,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 12,
+        "NO_START_REFERENCE_WITHIN_10S": 11
+      },
+      "session_date": "2026-08-19"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1330,
+      "equal_price_count": 31,
+      "binary_eligible_rows": 1299,
+      "up_count": 569,
+      "down_count": 730,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1299,
+        "EQUAL_REFERENCE_PRICE": 31,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 17,
+        "NO_START_REFERENCE_WITHIN_10S": 18
+      },
+      "session_date": "2026-08-20"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1331,
+      "equal_price_count": 48,
+      "binary_eligible_rows": 1283,
+      "up_count": 682,
+      "down_count": 601,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1283,
+        "EQUAL_REFERENCE_PRICE": 48,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 17,
+        "NO_START_REFERENCE_WITHIN_10S": 17
+      },
+      "session_date": "2026-08-21"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1356,
+      "equal_price_count": 49,
+      "binary_eligible_rows": 1307,
+      "up_count": 594,
+      "down_count": 713,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1307,
+        "EQUAL_REFERENCE_PRICE": 49,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 5,
+        "NO_START_REFERENCE_WITHIN_10S": 4
+      },
+      "session_date": "2026-08-24"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1325,
+      "equal_price_count": 46,
+      "binary_eligible_rows": 1279,
+      "up_count": 663,
+      "down_count": 616,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1279,
+        "EQUAL_REFERENCE_PRICE": 46,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 20,
+        "NO_START_REFERENCE_WITHIN_10S": 20
+      },
+      "session_date": "2026-08-25"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1327,
+      "equal_price_count": 50,
+      "binary_eligible_rows": 1277,
+      "up_count": 638,
+      "down_count": 639,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1277,
+        "EQUAL_REFERENCE_PRICE": 50,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 18,
+        "NO_START_REFERENCE_WITHIN_10S": 20
+      },
+      "session_date": "2026-08-26"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1340,
+      "equal_price_count": 29,
+      "binary_eligible_rows": 1311,
+      "up_count": 666,
+      "down_count": 645,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1311,
+        "EQUAL_REFERENCE_PRICE": 29,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 13,
+        "NO_START_REFERENCE_WITHIN_10S": 12
+      },
+      "session_date": "2026-08-27"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1295,
+      "equal_price_count": 33,
+      "binary_eligible_rows": 1262,
+      "up_count": 654,
+      "down_count": 608,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1262,
+        "EQUAL_REFERENCE_PRICE": 33,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 34,
+        "NO_START_REFERENCE_WITHIN_10S": 36
+      },
+      "session_date": "2026-08-28"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1352,
+      "equal_price_count": 49,
+      "binary_eligible_rows": 1303,
+      "up_count": 679,
+      "down_count": 624,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1303,
+        "EQUAL_REFERENCE_PRICE": 49,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 7,
+        "NO_START_REFERENCE_WITHIN_10S": 6
+      },
+      "session_date": "2026-08-31"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1333,
+      "equal_price_count": 39,
+      "binary_eligible_rows": 1294,
+      "up_count": 574,
+      "down_count": 720,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1294,
+        "EQUAL_REFERENCE_PRICE": 39,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 16,
+        "NO_START_REFERENCE_WITHIN_10S": 16
+      },
+      "session_date": "2026-09-01"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1334,
+      "equal_price_count": 37,
+      "binary_eligible_rows": 1297,
+      "up_count": 661,
+      "down_count": 636,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1297,
+        "EQUAL_REFERENCE_PRICE": 37,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 16,
+        "NO_START_REFERENCE_WITHIN_10S": 15
+      },
+      "session_date": "2026-09-02"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1347,
+      "equal_price_count": 42,
+      "binary_eligible_rows": 1305,
+      "up_count": 664,
+      "down_count": 641,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1305,
+        "EQUAL_REFERENCE_PRICE": 42,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 9,
+        "NO_START_REFERENCE_WITHIN_10S": 9
+      },
+      "session_date": "2026-09-03"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1256,
+      "equal_price_count": 54,
+      "binary_eligible_rows": 1202,
+      "up_count": 655,
+      "down_count": 547,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1202,
+        "EQUAL_REFERENCE_PRICE": 54,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 51,
+        "NO_START_REFERENCE_WITHIN_10S": 58
+      },
+      "session_date": "2026-09-04"
+    },
+    {
+      "candidate_rows": 1140,
+      "structurally_valid_paths": 1125,
+      "reference_pairs_within_10s": 1032,
+      "equal_price_count": 43,
+      "binary_eligible_rows": 989,
+      "up_count": 458,
+      "down_count": 531,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 989,
+        "EQUAL_REFERENCE_PRICE": 43,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 45,
+        "NO_START_REFERENCE_WITHIN_10S": 48
+      },
+      "session_date": "2026-09-07"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1350,
+      "equal_price_count": 32,
+      "binary_eligible_rows": 1318,
+      "up_count": 655,
+      "down_count": 663,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1318,
+        "EQUAL_REFERENCE_PRICE": 32,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 8,
+        "NO_START_REFERENCE_WITHIN_10S": 7
+      },
+      "session_date": "2026-09-08"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1328,
+      "equal_price_count": 44,
+      "binary_eligible_rows": 1284,
+      "up_count": 637,
+      "down_count": 647,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1284,
+        "EQUAL_REFERENCE_PRICE": 44,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 19,
+        "NO_START_REFERENCE_WITHIN_10S": 18
+      },
+      "session_date": "2026-09-09"
+    },
+    {
+      "candidate_rows": 1380,
+      "structurally_valid_paths": 1365,
+      "reference_pairs_within_10s": 1333,
+      "equal_price_count": 58,
+      "binary_eligible_rows": 1275,
+      "up_count": 588,
+      "down_count": 687,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 1275,
+        "EQUAL_REFERENCE_PRICE": 58,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 16,
+        "NO_START_REFERENCE_WITHIN_10S": 16
+      },
+      "session_date": "2026-09-10"
+    },
+    {
+      "candidate_rows": 120,
+      "structurally_valid_paths": 105,
+      "reference_pairs_within_10s": 98,
+      "equal_price_count": 6,
+      "binary_eligible_rows": 92,
+      "up_count": 41,
+      "down_count": 51,
+      "eligibility_reason_counts": {
+        "ELIGIBLE": 92,
+        "EQUAL_REFERENCE_PRICE": 6,
+        "NO_FUTURE_BOUNDARY": 15,
+        "NO_FUTURE_REFERENCE_WITHIN_10S": 4,
+        "NO_START_REFERENCE_WITHIN_10S": 3
+      },
+      "session_date": "2026-09-11"
+    }
+  ]
+}
