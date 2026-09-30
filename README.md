@@ -91,6 +91,9 @@ Recommended review order:
 The pre-model research design is recorded in
 [Research Protocol V1](RESEARCH_PROTOCOL_V1.md).
 
+Exact pre-implementation feature definitions are recorded in
+[Feature Formula Specification V1](FEATURE_FORMULAS_V1.md).
+
 ## Dataset versions and status
 
 - `data/processed/1s/full_history_v1/` is preserved for provenance. It was

@@ -10,6 +10,9 @@ Feature Set V1 is conceptually frozen for the first experiment. Later research
 ideas require a separately versioned protocol or feature set rather than a
 silent addition after results are seen.
 
+The exact pre-implementation definitions are recorded in
+[Feature Formula Specification V1](FEATURE_FORMULAS_V1.md).
+
 This document specifies research design only. It does not create features,
 targets, datasets, models, or trading rules.
 
