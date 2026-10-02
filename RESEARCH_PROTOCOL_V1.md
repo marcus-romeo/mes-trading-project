@@ -13,6 +13,10 @@ silent addition after results are seen.
 The exact pre-implementation definitions are recorded in
 [Feature Formula Specification V1](FEATURE_FORMULAS_V1.md).
 
+The dated pre-model admission clarification in that specification defines
+relative-activity source rows, comparable prior sessions, and opening-range
+validity before any Model 0 feature values or predictive results exist.
+
 This document specifies research design only. It does not create features,
 targets, datasets, models, or trading rules.
 
@@ -154,6 +158,11 @@ At a roll:
 - targets crossing the roll are invalid; and
 - prior-session levels are unavailable without a comparable same-contract
   prior period.
+
+Target V2 additionally checks the actual start and future reference trades'
+instrument_id, including when a roll occurs exactly at a reference boundary.
+It preserves Target V1 as provenance and retains the original horizon,
+strict less-than-10-second timing, and equal-price policy.
 
 Contract basis change is not interpreted as market price movement.
 
@@ -364,7 +373,18 @@ Every meaningful change is documented before its result is inspected and is
 versioned separately, for example Research Protocol V2, Feature Set V2, or
 Model Specification V2. Git history preserves those decisions.
 
-## 26. Current project stage
+## 26. Pre-model clarification and version control
+
+On 2026-10-01, before Model 0 feature calculation or model results, the
+project recorded operational session-admission rules in Feature Formula
+Specification V1. These clarify existing formulas without adding features or
+using target eligibility to select historical activity observations. Target V2
+was created separately because independent audit found three Target V1 labels
+whose future reference trades belonged to the next contract. Target V1 and
+all earlier foundations remain preserved; V2 supplies the corrected outcome
+layer for subsequent research. Neither change follows predictive results.
+
+## 27. Current project stage
 
 **Completed**
 
@@ -376,12 +396,14 @@ Model Specification V2. Git history preserves those decisions.
 - Session/gap investigation
 - First-second timing study
 - Research Protocol V1 design
+- Feature Formula Specification V1 and pre-model admission clarification
+- Target V1 construction and audit; preserved for provenance
+- Corrected Target V2 construction and independent contract-identity audit
 
 **Next**
 
-1. Freeze exact Feature Set V1 formulas.
-2. Implement the target and eligibility layer.
-3. Implement feature calculations.
-4. Validate feature correctness.
-5. Construct chronological development folds.
-6. Begin predictive modeling only after the preceding steps.
+1. Implement causal Model 0 features from the frozen one-minute foundation.
+2. Independently validate the feature formulas and missingness rules.
+3. Implement and validate Model 1 features later.
+4. Construct chronological development folds and purge crossing labels.
+5. Begin predictive modeling only after the preceding steps.

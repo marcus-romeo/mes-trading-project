@@ -270,6 +270,76 @@ unobserved market intent.
 - Any later missing-value treatment is fitted on training data only.
 - Relative-activity baselines use prior historical observations only.
 - Every formula using S_60 is missing when S_60 <= 1e-12.
+- All target-layer columns, including Target V2 reference prices, timestamps,
+  delays, reference instrument IDs, forward changes/returns, eligibility,
+  reasons, and labels, are outcome diagnostics and never Model 0 inputs.
+
+## Pre-model operational clarification — 2026-10-01
+
+The formulas above were frozen before any predictive features or model results.
+This clarification fixes session admission for their existing Model 0 families;
+it adds no feature, changes no numerical formula, and was recorded before
+calculating Model 0 feature values.
+
+### Relative-activity baseline admission
+
+- At a decision boundary T, q is the elapsed minute from that session's 17:00
+  CT open. Search strictly earlier sessions in reverse chronological order and
+  take the 20 most recent sessions with an actual one-minute row at the same q.
+  A session without that row is skipped; never synthesize a zero-volume row.
+- The row's full source interval [T_q-1m, T_q) must lie inside the purchased
+  DBN request interval, and its observed volume/trade count must be valid.
+  Source-boundary partial sessions may contribute q values whose full minute
+  is covered. `is_complete_session` is not a general admission filter.
+- A known outage or unresolved internal gap excludes an absent or affected q,
+  but does not discard an observed q elsewhere in the same session. Scheduled
+  early closes and holidays contribute only q values actually observed.
+  Databento-degraded warnings do not exclude an otherwise valid observed row.
+- A roll session may contribute an observed q: this is a participation baseline,
+  not a cross-contract price comparison. The current session, target
+  eligibility, target labels, and future sessions never determine membership.
+  During validation and holdout, the baseline continues to update only from
+  activity observed before each T, as it would in a live stateful calculation.
+- If fewer than 20 qualifying prior same-q observations exist, both relative
+  activity features are missing. Activity acceleration retains its stated
+  separate five-elapsed-minute rule and cannot cross a known gap or closure.
+
+### Immediately prior-session levels
+
+- "Prior session" means the immediately preceding observed CME session_date,
+  never the most recent convenient earlier session. If it is not comparable,
+  all three prior-session distances are missing for the current decision; do
+  not search farther back.
+- The prior session must not be source-truncated or contain a known internal
+  outage or unresolved missing-minute interval. In this frozen history,
+  2025-10-07 and 2026-09-11 are source-boundary partial sessions; 2025-11-28,
+  2025-12-24, and 2025-12-30 have disqualifying internal discontinuities.
+  A vendor warning alone does not disqualify a session.
+- A scheduled early close or holiday is comparable when its available session
+  data have no such defect. Do not demand a fixed row count or a 16:00 CT last
+  trade. Use the maximum observed high, minimum observed low, and final actual
+  completed-minute close of that prior session; missing or nonpositive required
+  prices make the levels unavailable.
+- Every minute used for those prior levels must have one instrument_id, with
+  no contract transition inside the prior session, and that ID must equal the
+  current decision's ID. A mixed-contract prior session supplies no whole-
+  session levels, even for its new-contract segment. No roll-adjusted price is
+  substituted. The prior session must have ended before T.
+
+### U.S. 30-minute opening-range validity
+
+- Use only current-session minutes whose Chicago-local minute_start lies in
+  [08:30, 09:00). Require all 30 exact elapsed one-minute slots to have actual
+  completed rows. This completeness rule is specific to the opening range;
+  it does not change the general sparse W_h aggregation rule.
+- If a slot is absent, a known outage or unresolved gap intersects the range,
+  source coverage is partial within it, or instrument_id changes inside it,
+  the opening-range position is missing. Do not fill or shorten the range.
+- The range becomes available at T = 09:00 CT, after [08:59, 09:00) completes.
+  At T and later, its contract ID must equal the current decision's ID; a later
+  roll invalidates the old range for the new contract. The stated zero-range
+  value of 0.5 is retained. A missing opening range leaves the otherwise valid
+  prediction observation in place with this feature missing.
 
 ## Live parity
 
@@ -322,15 +392,12 @@ V1 does not add:
 
 ## Implementation status
 
-Feature Formula Specification V1 is frozen before feature implementation and
-predictive modeling.
+Feature Formula Specification V1 and the dated admission clarification above
+are frozen before Model 0 feature calculation and predictive modeling.
 
 Next steps:
 
-1. Implement target and eligibility logic.
-2. Implement Model 0 features.
-3. Validate formulas independently.
-4. Implement Model 1 features.
-5. Validate historical/live reproducibility.
-6. Create chronological development folds.
-7. Train predictive models only after the preceding steps.
+Target V2 corrects a roll-boundary endpoint defect in preserved Target V1.
+The next step is to implement and independently validate Model 0 features.
+Model 1 features, chronological development folds, and predictive training
+remain later steps.

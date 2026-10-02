@@ -1,5 +1,5 @@
 databento==0.86.0
-numpy
+numpy==2.5.3
 pandas==3.0.5
 jupyterlab==4.6.3
 SQLAlchemy==2.0.52

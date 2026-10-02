@@ -4,7 +4,8 @@ This repository is a research and learning project for building a technically
 sound, explainable pipeline for Micro E-mini S&P 500 futures (`MES`) data. It
 does not contain a trading strategy or a trained model yet. The event-time
 one-second and derived one-minute historical foundations are complete and
-frozen; the next stage is actual model-feature creation.
+frozen. Target V1 is preserved as provenance; corrected Target V2 is the
+approved outcome layer. The next research stage is causal Model 0 features.
 
 ## Objective
 
@@ -41,11 +42,16 @@ validated V2 event-time 1-second Parquet sessions + JSON manifests
         v
 frozen V1 one-minute foundation + JSON run manifest
         |
+        |  15-minute paths; endpoint trades from approved V2 seconds
         v
-future live-compatible model feature creation
+corrected, contract-safe Target V2 + run manifest
+        |  (Target V1 preserved separately as provenance)
         |
         v
-future chronological model validation and trading research
+future causal Model 0 features from completed minutes
+        |
+        v
+future Model 1 features, chronological validation, and trading research
 ```
 
 The 1-second processor deliberately retains the validated chunk architecture:
@@ -76,10 +82,15 @@ provide an equivalent exchange-native label.
 - `05_feature_engineering.ipynb` — technical record for the frozen one-minute
   derivation, its read-only full-history audit, and the transition to model
   feature creation.
+- `06_target_eligibility.ipynb` — read-only Target V2 boundary and manifest
+  checks, including the Target V1-to-V2 change record.
 
-The executable implementations are `src/trade_processing_v2.py` and
-`src/feature_engineering_v1.py`. Keeping production logic in source modules
-prevents notebook prototypes and validation paths from drifting.
+The executable implementations are `src/trade_processing_v2.py`,
+`src/feature_engineering_v1.py`, and `src/target_engineering_v2.py`.
+`src/target_audit_v2.py` provides a separate read-only source audit. The
+preserved `src/target_engineering_v1.py` records the historical Target V1
+implementation. Keeping production logic in source modules prevents notebook
+prototypes and validation paths from drifting.
 
 Recommended review order:
 
@@ -87,6 +98,7 @@ Recommended review order:
 2. `03_raw_data_validation.ipynb`
 3. `src/trade_processing_v2.py`
 4. `05_feature_engineering.ipynb` and `src/feature_engineering_v1.py`
+5. `06_target_eligibility.ipynb` and the Target V2 source/audit modules
 
 The pre-model research design is recorded in
 [Research Protocol V1](RESEARCH_PROTOCOL_V1.md).
@@ -112,6 +124,19 @@ Exact pre-implementation feature definitions are recorded in
   `run_manifest.json` records the timing contract, schema, totals, and rolls.
   The directory name does **not** refer to the invalid receive-time 1-second
   V1 dataset above.
+- `data/processed/targets/target_v1/` is the preserved historical Target V1.
+  Its headline counts reconcile, but three eligible rows compare prices across
+  rolls exactly at future reference boundaries. Do not use it for modeling.
+- `data/processed/targets/target_v2/` is the corrected target from the same
+  approved 1m and V2 1s sources. It checks the actual instrument_id of both
+  endpoint trades and stores those IDs as target-side audit fields. Its writer
+  refuses an existing destination; its manifest records every changed row and
+  old/new aggregate counts. V2 has 242 files, 329,337 candidates, 318,444
+  timing-qualified endpoint pairs, 9,245 equal-price exclusions, and 309,196
+  eligible labels (156,957 UP; 152,239 DOWN). Exactly three former UP labels
+  are now `FUTURE_REFERENCE_CONTRACT_MISMATCH`; no other shared target field
+  changed outside those rows. Target-side prices, delays, IDs, labels, and
+  eligibility diagnostics must never enter the predictive feature matrix.
 
 Each minute row is timestamped at the decision boundary immediately after its
 source minute: a row at `10:31:00` contains only the completed
@@ -163,7 +188,29 @@ and run/session-manifest facts independently.
 
 ## Next step
 
-Create model features from the frozen `1m/full_history_v1` foundation, using
-explicit decision-time rules and deliberate treatment of partial, degraded,
-holiday, and contract-roll sessions. Do not use the receive-time
-`1s/full_history_v1` dataset for modeling.
+Implement and independently validate causal Model 0 features from the frozen
+`1m/full_history_v1` foundation using the pre-model admission clarification in
+`FEATURE_FORMULAS_V1.md`. Use corrected Target V2 for later evaluation. Do not
+train a model during feature implementation, and do not use receive-time
+`1s/full_history_v1` for modeling.
+
+## Reproducing the current data state
+
+Git contains source code, notebooks, research specifications, and JSON run
+manifests. The purchased raw DBN, generated Parquet sessions, `.env`, and
+`.venv` are deliberately ignored. A clean clone therefore cannot read the
+historical target files without a separately transferred artifact set or a
+rebuild from the purchased DBN. The required local artifact paths are listed
+in the dataset section above; the raw DBN is the only input to the original
+event-time build. A rebuild must use `ts_event`, verify the DBN metadata and
+contract mapping, and run the source-to-output audits before trusting the
+result. Do not run production writers against already populated frozen paths.
+
+`requirements.txt` records the current Python dependencies; the audited local
+environment used Python 3.12.10. Manifests record row counts and lineage, not
+cryptographic hashes. See `ARTIFACT_PROVENANCE_V1.json` for separately recorded
+SHA-256 hashes of the currently held raw, frozen, and corrected target files.
+The `.env` contents and any Databento credentials are not part of Git or that
+provenance record. After transferring the ignored artifacts, run
+`python -m src.verify_artifact_provenance` from the repository root to check
+every recorded file without modifying it.

@@ -1,8 +1,8 @@
-"""Build and audit the preserved Target V1 from approved event-time foundations.
+"""Build and audit contract-safe Target V2 from the frozen event-time foundations.
 
-The module includes in-memory construction, a guarded production writer, and
-source reconciliation. Its historical V1 behavior is retained for provenance;
-Target V2 corrects an endpoint-contract defect without overwriting V1.
+Target V1 is preserved. V2 adds the instrument identity of each actual endpoint
+trade and rejects a reference belonging to another futures contract. No model
+features are calculated here.
 """
 
 from __future__ import annotations
@@ -19,10 +19,10 @@ import pyarrow.parquet as pq
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_MINUTE_DIR = PROJECT_ROOT / "data" / "processed" / "1m" / "full_history_v1"
 DEFAULT_SECOND_DIR = PROJECT_ROOT / "data" / "processed" / "1s" / "full_history_v2_event_time"
-DEFAULT_TARGET_DIR = PROJECT_ROOT / "data" / "processed" / "targets" / "target_v1"
+DEFAULT_TARGET_DIR = PROJECT_ROOT / "data" / "processed" / "targets" / "target_v2"
 TARGET_HORIZON = pd.Timedelta(minutes=15)
 REFERENCE_DELAY_LIMIT = pd.Timedelta(seconds=10)
-TARGET_SCHEMA_VERSION = "mes_target_v1_event_time_15m_10s"
+TARGET_SCHEMA_VERSION = "mes_target_v2_event_time_15m_10s_contract_safe"
 
 ELIGIBLE = "ELIGIBLE"
 NO_FUTURE_BOUNDARY = "NO_FUTURE_BOUNDARY"
@@ -31,6 +31,8 @@ CROSSES_CONTRACT_ROLL = "CROSSES_CONTRACT_ROLL"
 CROSSES_INTERNAL_GAP = "CROSSES_INTERNAL_GAP"
 NO_START_REFERENCE_WITHIN_10S = "NO_START_REFERENCE_WITHIN_10S"
 NO_FUTURE_REFERENCE_WITHIN_10S = "NO_FUTURE_REFERENCE_WITHIN_10S"
+START_REFERENCE_CONTRACT_MISMATCH = "START_REFERENCE_CONTRACT_MISMATCH"
+FUTURE_REFERENCE_CONTRACT_MISMATCH = "FUTURE_REFERENCE_CONTRACT_MISMATCH"
 EQUAL_REFERENCE_PRICE = "EQUAL_REFERENCE_PRICE"
 
 TARGET_COLUMNS = [
@@ -41,10 +43,12 @@ TARGET_COLUMNS = [
     "start_reference_timestamp",
     "start_reference_delay_seconds",
     "start_reference_price",
+    "start_reference_instrument_id",
     "future_boundary_timestamp",
     "future_reference_timestamp",
     "future_reference_delay_seconds",
     "future_reference_price",
+    "future_reference_instrument_id",
     "forward_price_change",
     "forward_log_return",
     "target_up_15m",
@@ -60,10 +64,12 @@ TARGET_ARROW_SCHEMA = pa.schema([
     pa.field("start_reference_timestamp", pa.timestamp("ns", tz="UTC")),
     pa.field("start_reference_delay_seconds", pa.float64()),
     pa.field("start_reference_price", pa.float64()),
+    pa.field("start_reference_instrument_id", pa.uint32()),
     pa.field("future_boundary_timestamp", pa.timestamp("ns", tz="UTC")),
     pa.field("future_reference_timestamp", pa.timestamp("ns", tz="UTC")),
     pa.field("future_reference_delay_seconds", pa.float64()),
     pa.field("future_reference_price", pa.float64()),
+    pa.field("future_reference_instrument_id", pa.uint32()),
     pa.field("forward_price_change", pa.float64()),
     pa.field("forward_log_return", pa.float64()),
     pa.field("target_up_15m", pa.int8()),
@@ -166,8 +172,12 @@ def construct_15m_target_for_session(
 
             if start_reference is None:
                 record["eligibility_reason"] = NO_START_REFERENCE_WITHIN_10S
+            elif start_reference["instrument_id"] != row.instrument_id:
+                record["eligibility_reason"] = START_REFERENCE_CONTRACT_MISMATCH
             elif future_reference is None:
                 record["eligibility_reason"] = NO_FUTURE_REFERENCE_WITHIN_10S
+            elif future_reference["instrument_id"] != row.instrument_id:
+                record["eligibility_reason"] = FUTURE_REFERENCE_CONTRACT_MISMATCH
             else:
                 price_change = future_reference["price"] - start_reference["price"]
                 record["forward_price_change"] = float(price_change)
@@ -227,6 +237,10 @@ def validate_one_session_target_output(target_rows: pd.DataFrame) -> None:
             raise ValueError(f"Eligible {prefix} reference delay violates [0, 10s).")
         if target_rows.loc[eligible, f"{prefix}_reference_price"].isna().any():
             raise ValueError(f"Eligible target lacks a {prefix} reference price.")
+        if not target_rows.loc[eligible, f"{prefix}_reference_instrument_id"].eq(
+            target_rows.loc[eligible, "instrument_id"]
+        ).all():
+            raise ValueError(f"Eligible {prefix} reference crosses a contract.")
 
     equal = target_rows["eligibility_reason"].eq(EQUAL_REFERENCE_PRICE)
     if equal.any() and not (
@@ -266,7 +280,7 @@ def summarize_target_session(target_rows: pd.DataFrame) -> dict:
 
 
 def run_deterministic_target_tests() -> dict[str, str]:
-    """Run compact boundary, outcome, roll, and partial-source checks in memory."""
+    """Exercise timing, reference identity, outcome, and path boundaries in memory."""
     boundary = pd.Timestamp("2026-06-22 14:00:00+00:00")
     exact = _synthetic_seconds([(boundary, 100.0)])
     near_limit = _synthetic_seconds([
@@ -300,6 +314,23 @@ def run_deterministic_target_tests() -> dict[str, str]:
         and equal["eligibility_reason"] == EQUAL_REFERENCE_PRICE
     )
 
+    missing_start = construct_15m_target_for_session(
+        minutes,
+        _synthetic_seconds([(boundary + TARGET_HORIZON, 101.0)]),
+    ).iloc[0]
+    missing_future = construct_15m_target_for_session(
+        minutes,
+        _synthetic_seconds([(boundary, 100.0)]),
+    ).iloc[0]
+    assert missing_start["eligibility_reason"] == NO_START_REFERENCE_WITHIN_10S
+    assert missing_future["eligibility_reason"] == NO_FUTURE_REFERENCE_WITHIN_10S
+
+    session_ending = construct_15m_target_for_session(
+        minutes.iloc[:-1],
+        _synthetic_seconds([(boundary, 100.0), (boundary + TARGET_HORIZON, 101.0)]),
+    ).iloc[0]
+    assert session_ending["eligibility_reason"] == NO_FUTURE_BOUNDARY
+
     missing_internal = minutes.drop(index=minutes.index[8]).reset_index(drop=True)
     missing_result = construct_15m_target_for_session(
         missing_internal,
@@ -327,6 +358,26 @@ def run_deterministic_target_tests() -> dict[str, str]:
         _synthetic_seconds([(boundary, 100.0), (boundary + TARGET_HORIZON, 101.0)]),
     ).iloc[0]
     assert roll_result["eligibility_reason"] == CROSSES_CONTRACT_ROLL
+
+    start_contract_mismatch = construct_15m_target_for_session(
+        minutes,
+        _synthetic_seconds([(boundary, 100.0, 2), (boundary + TARGET_HORIZON, 101.0, 1)]),
+    ).iloc[0]
+    assert start_contract_mismatch["eligibility_reason"] == START_REFERENCE_CONTRACT_MISMATCH
+    for roll_date in ["2025-12-17", "2026-03-18", "2026-06-17"]:
+        roll_boundary = pd.Timestamp(roll_date, tz="UTC")
+        old_contract_minutes = _synthetic_minutes(
+            roll_boundary - TARGET_HORIZON, 16, session_date=roll_date,
+        )
+        future_contract_mismatch = construct_15m_target_for_session(
+            old_contract_minutes,
+            _synthetic_seconds([
+                (roll_boundary - TARGET_HORIZON, 100.0, 1),
+                (roll_boundary, 101.0, 2),
+            ]),
+        ).iloc[0]
+        assert future_contract_mismatch["eligibility_reason"] == FUTURE_REFERENCE_CONTRACT_MISMATCH
+        assert not future_contract_mismatch["target_eligible"]
 
     early_close_boundary = pd.Timestamp("2025-11-27 17:00:00+00:00")
     early_close_minutes = _synthetic_minutes(
@@ -364,9 +415,14 @@ def run_deterministic_target_tests() -> dict[str, str]:
         "reference_10_seconds_rejected": "PASS",
         "reference_absent_rejected": "PASS",
         "higher_lower_equal_outcomes": "PASS",
+        "missing_start_reference": "PASS",
+        "missing_future_reference": "PASS",
+        "session_ending": "PASS",
         "missing_internal_minute": "PASS",
         "session_boundary": "PASS",
         "contract_roll": "PASS",
+        "start_reference_contract_mismatch": "PASS",
+        "three_future_roll_boundary_edges": "PASS",
         "early_close_before_close": "PASS",
         "source_partial_self_contained": "PASS",
     }
@@ -379,7 +435,7 @@ def write_one_target_session(target_rows: pd.DataFrame, output_dir: Path) -> Pat
     if len(session_dates) != 1:
         raise ValueError(f"Target output has multiple session dates: {session_dates.tolist()}")
 
-    output_path = Path(output_dir) / f"MES_target_v1_{session_dates[0]}.parquet"
+    output_path = Path(output_dir) / f"MES_target_v2_{session_dates[0]}.parquet"
     if output_path.exists():
         raise FileExistsError(f"Refusing to overwrite existing target file: {output_path}")
 
@@ -454,12 +510,17 @@ def validate_target_session_against_sources(
             stages["structurally_valid_paths"] += 1
             start_reference = reference_lookup[decision_timestamp]
             future_reference = reference_lookup[future_boundary]
+            if start_reference is not None and future_reference is not None:
+                stages["reference_pairs_within_10s"] += 1
             if start_reference is None:
                 expected_reason = NO_START_REFERENCE_WITHIN_10S
+            elif start_reference["instrument_id"] != row.instrument_id:
+                expected_reason = START_REFERENCE_CONTRACT_MISMATCH
             elif future_reference is None:
                 expected_reason = NO_FUTURE_REFERENCE_WITHIN_10S
+            elif future_reference["instrument_id"] != row.instrument_id:
+                expected_reason = FUTURE_REFERENCE_CONTRACT_MISMATCH
             else:
-                stages["reference_pairs_within_10s"] += 1
                 price_change = future_reference["price"] - start_reference["price"]
                 if price_change == 0:
                     expected_reason = EQUAL_REFERENCE_PRICE
@@ -500,12 +561,12 @@ def validate_target_session_against_sources(
     return stages
 
 
-def build_full_history_target_v1(
+def build_full_history_target_v2(
     minute_dir: Path = DEFAULT_MINUTE_DIR,
     second_dir: Path = DEFAULT_SECOND_DIR,
     output_dir: Path = DEFAULT_TARGET_DIR,
 ) -> dict:
-    """Build Target V1 once from frozen session files, with read-back audits.
+    """Build Target V2 once from frozen session files, with read-back audits.
 
     The destination must not already exist. Each session is loaded, written,
     and reconciled independently to keep memory bounded and prevent silent
@@ -565,12 +626,12 @@ def build_full_history_target_v1(
     return manifest
 
 
-def audit_full_history_target_v1(
+def audit_full_history_target_v2(
     minute_dir: Path = DEFAULT_MINUTE_DIR,
     second_dir: Path = DEFAULT_SECOND_DIR,
     output_dir: Path = DEFAULT_TARGET_DIR,
 ) -> dict:
-    """Read every Target V1 file and reconcile it to its frozen source session."""
+    """Read every Target V2 file and reconcile it to its frozen source session."""
     minute_dir = Path(minute_dir)
     second_dir = Path(second_dir)
     output_dir = Path(output_dir)
@@ -579,15 +640,15 @@ def audit_full_history_target_v1(
         raise FileNotFoundError(f"Target run manifest not found: {manifest_path}")
     manifest = json.loads(manifest_path.read_text())
     if manifest.get("schema_version") != TARGET_SCHEMA_VERSION:
-        raise ValueError("Target manifest schema version does not match V1.")
+        raise ValueError("Target manifest schema version does not match V2.")
 
-    target_paths = sorted(output_dir.glob("MES_target_v1_*.parquet"))
+    target_paths = sorted(output_dir.glob("MES_target_v2_*.parquet"))
     if len(target_paths) != manifest.get("session_files"):
         raise ValueError("Target file count does not match the run manifest.")
     audits = []
     prior_timestamp = None
     for target_path in target_paths:
-        session_date = target_path.stem.removeprefix("MES_target_v1_")
+        session_date = target_path.stem.removeprefix("MES_target_v2_")
         target_rows = pd.read_parquet(target_path)
         if pq.ParquetFile(target_path).schema_arrow.remove_metadata() != TARGET_ARROW_SCHEMA:
             raise ValueError(f"Target schema mismatch: {target_path.name}")
@@ -621,8 +682,9 @@ def _validate_reference_fields(row, prefix: str, expected: dict | None) -> None:
     timestamp = getattr(row, f"{prefix}_reference_timestamp")
     delay = getattr(row, f"{prefix}_reference_delay_seconds")
     price = getattr(row, f"{prefix}_reference_price")
+    instrument_id = getattr(row, f"{prefix}_reference_instrument_id")
     if expected is None:
-        if not (pd.isna(timestamp) and pd.isna(delay) and pd.isna(price)):
+        if not (pd.isna(timestamp) and pd.isna(delay) and pd.isna(price) and pd.isna(instrument_id)):
             raise ValueError(f"Target stores an unavailable {prefix} reference.")
         return
     if timestamp != expected["timestamp"]:
@@ -631,6 +693,8 @@ def _validate_reference_fields(row, prefix: str, expected: dict | None) -> None:
         raise ValueError(f"Stored {prefix} reference delay is incorrect.")
     if not _same_float(price, expected["price"]):
         raise ValueError(f"Stored {prefix} reference price is incorrect.")
+    if pd.isna(instrument_id) or int(instrument_id) != expected["instrument_id"]:
+        raise ValueError(f"Stored {prefix} reference instrument is incorrect.")
 
 
 def _validate_outcome_fields(
@@ -688,7 +752,7 @@ def _build_run_manifest(
     minute_manifest = json.loads((minute_dir / "run_manifest.json").read_text())
     second_manifest = json.loads((second_dir / "run_manifest.json").read_text())
     ordered_audits = sorted(session_audits, key=lambda audit: audit["session_date"])
-    target_paths = sorted(output_dir.glob("MES_target_v1_*.parquet"))
+    target_paths = sorted(output_dir.glob("MES_target_v2_*.parquet"))
     if len(target_paths) != aggregate["session_files"]:
         raise ValueError("Target file count does not match completed session audits.")
 
@@ -703,6 +767,7 @@ def _build_run_manifest(
         for audit in ordered_audits
         if audit["eligibility_reason_counts"].get(CROSSES_CONTRACT_ROLL, 0) > 0
     ]
+    version_comparison = _compare_to_target_v1(output_dir, aggregate)
     return {
         "schema_version": TARGET_SCHEMA_VERSION,
         "created_at_utc": pd.Timestamp.now(tz="UTC").isoformat(),
@@ -724,14 +789,25 @@ def _build_run_manifest(
             "first actual V2 event-time trade at or after each boundary; "
             "0 <= delay < 10 seconds; use the one-second row open"
         ),
+        "version_change_from_target_v1": (
+            "Preserve Target V1 and reject endpoint reference trades whose "
+            "instrument_id differs from the decision candidate; store both "
+            "reference instrument IDs for audit. No other target rule changes."
+        ),
+        "target_v1_comparison": version_comparison,
+        "reference_contract_reason_priority": (
+            "after structural eligibility: absent start, mismatched start "
+            "contract, absent future, mismatched future contract, equal price"
+        ),
         "equal_price_policy": "equal endpoint prices have no binary target",
         "continuity_policy": (
             "require every elapsed one-minute boundary from T through T+15m; "
             "do not bridge session boundaries, closures, gaps, or absent minutes"
         ),
         "contract_roll_policy": (
-            "require one instrument_id throughout T through T+15m; "
-            "targets crossing a roll are ineligible"
+            "require one instrument_id throughout the completed-minute path "
+            "and the actual start/future reference trades; cross-contract "
+            "targets are ineligible"
         ),
         "source_boundary_policy": (
             "2025-10-07 and 2026-09-11 remain; normal observation-level "
@@ -761,10 +837,12 @@ def _build_run_manifest(
             "start_reference_timestamp",
             "start_reference_delay_seconds",
             "start_reference_price",
+            "start_reference_instrument_id",
             "future_boundary_timestamp",
             "future_reference_timestamp",
             "future_reference_delay_seconds",
             "future_reference_price",
+            "future_reference_instrument_id",
             "forward_price_change",
             "forward_log_return",
             "target_up_15m",
@@ -774,6 +852,67 @@ def _build_run_manifest(
         "predictive_features_included": False,
         "target_outcomes_must_not_enter_feature_matrix": True,
         "session_audit": ordered_audits,
+    }
+
+
+def _compare_to_target_v1(output_dir: Path, v2_counts: dict) -> dict:
+    """Record every changed shared target field while preserving frozen V1."""
+    target_v1_dir = PROJECT_ROOT / "data/processed/targets/target_v1"
+    v1_manifest = json.loads((target_v1_dir / "run_manifest.json").read_text())
+    old_paths = sorted(target_v1_dir.glob("MES_target_v1_*.parquet"))
+    new_paths = sorted(output_dir.glob("MES_target_v2_*.parquet"))
+    if len(old_paths) != len(new_paths):
+        raise ValueError("Target V1 and V2 session file counts differ.")
+    allowed_changes = {
+        "forward_price_change", "forward_log_return", "target_up_15m",
+        "target_eligible", "eligibility_reason",
+    }
+    changed_rows = []
+    for old_path, new_path in zip(old_paths, new_paths):
+        old_date = old_path.stem.removeprefix("MES_target_v1_")
+        new_date = new_path.stem.removeprefix("MES_target_v2_")
+        if old_date != new_date:
+            raise ValueError("Target V1 and V2 session dates differ.")
+        old = pd.read_parquet(old_path)
+        new = pd.read_parquet(new_path)
+        if len(old) != len(new) or not old["decision_timestamp"].equals(new["decision_timestamp"]):
+            raise ValueError(f"Target V1/V2 candidate identity changed: {old_date}")
+        changed_by_row: dict[int, list[str]] = {}
+        for field in old.columns:
+            same = old[field].eq(new[field]).fillna(False) | (old[field].isna() & new[field].isna())
+            for index in same.index[~same]:
+                changed_by_row.setdefault(int(index), []).append(field)
+        for index, fields in changed_by_row.items():
+            if not set(fields).issubset(allowed_changes):
+                raise ValueError(f"Unrelated Target V1/V2 field changed: {old_date}, {fields}")
+            old_row, new_row = old.iloc[index], new.iloc[index]
+            changed_rows.append({
+                "session_date": old_date,
+                "decision_timestamp": str(old_row["decision_timestamp"]),
+                "changed_fields": sorted(fields),
+                "old_reason": str(old_row["eligibility_reason"]),
+                "new_reason": str(new_row["eligibility_reason"]),
+                "old_eligible": bool(old_row["target_eligible"]),
+                "new_eligible": bool(new_row["target_eligible"]),
+                "old_label": None if pd.isna(old_row["target_up_15m"]) else int(old_row["target_up_15m"]),
+                "new_label": None if pd.isna(new_row["target_up_15m"]) else int(new_row["target_up_15m"]),
+                "candidate_instrument_id": int(new_row["instrument_id"]),
+                "future_reference_instrument_id": (
+                    None if pd.isna(new_row["future_reference_instrument_id"])
+                    else int(new_row["future_reference_instrument_id"])
+                ),
+            })
+    count_fields = [
+        "total_candidate_rows", "structurally_valid_paths", "reference_pairs_within_10s",
+        "equal_price_count", "binary_eligible_rows", "up_count", "down_count",
+    ]
+    return {
+        "source_path": _project_relative_path(target_v1_dir),
+        "source_schema_version": v1_manifest["schema_version"],
+        "old_counts": {field: v1_manifest[field] for field in count_fields},
+        "new_counts": {field: v2_counts[field] for field in count_fields},
+        "changed_row_count": len(changed_rows),
+        "changed_rows": sorted(changed_rows, key=lambda row: row["decision_timestamp"]),
     }
 
 
@@ -804,7 +943,7 @@ def _prepare_minute_rows(frame: pd.DataFrame) -> pd.DataFrame:
 
 
 def _prepare_second_rows(frame: pd.DataFrame) -> pd.DataFrame:
-    required = {"timestamp_second", "first_trade_timestamp", "open"}
+    required = {"timestamp_second", "first_trade_timestamp", "open", "instrument_id"}
     missing = required - set(frame.columns)
     if missing:
         raise ValueError(f"V2 seconds lack required target fields: {sorted(missing)}")
@@ -815,6 +954,7 @@ def _prepare_second_rows(frame: pd.DataFrame) -> pd.DataFrame:
         utc=True,
     )
     prepared["open"] = prepared["open"].astype("float64")
+    prepared["instrument_id"] = prepared["instrument_id"].astype("uint32")
     return prepared.sort_values("first_trade_timestamp").reset_index(drop=True)
 
 
@@ -861,6 +1001,7 @@ def _reference_from_sorted_seconds(
         "timestamp": timestamp,
         "delay_seconds": float(delay_seconds),
         "price": float(row["open"]),
+        "instrument_id": int(row["instrument_id"]),
     }
 
 
@@ -873,10 +1014,12 @@ def _empty_target_record(row, future_boundary, reason: str) -> dict:
         "start_reference_timestamp": pd.NaT,
         "start_reference_delay_seconds": np.nan,
         "start_reference_price": np.nan,
+        "start_reference_instrument_id": pd.NA,
         "future_boundary_timestamp": future_boundary,
         "future_reference_timestamp": pd.NaT,
         "future_reference_delay_seconds": np.nan,
         "future_reference_price": np.nan,
+        "future_reference_instrument_id": pd.NA,
         "forward_price_change": np.nan,
         "forward_log_return": np.nan,
         "target_up_15m": pd.NA,
@@ -891,6 +1034,7 @@ def _store_reference(record: dict, prefix: str, reference: dict | None) -> None:
     record[f"{prefix}_reference_timestamp"] = reference["timestamp"]
     record[f"{prefix}_reference_delay_seconds"] = reference["delay_seconds"]
     record[f"{prefix}_reference_price"] = reference["price"]
+    record[f"{prefix}_reference_instrument_id"] = reference["instrument_id"]
 
 
 def _enforce_target_schema(frame: pd.DataFrame) -> pd.DataFrame:
@@ -904,6 +1048,8 @@ def _enforce_target_schema(frame: pd.DataFrame) -> pd.DataFrame:
         result[column] = pd.to_datetime(result[column], utc=True)
     result["session_date"] = pd.to_datetime(result["session_date"]).dt.date
     result["instrument_id"] = result["instrument_id"].astype("uint32")
+    result["start_reference_instrument_id"] = result["start_reference_instrument_id"].astype("UInt32")
+    result["future_reference_instrument_id"] = result["future_reference_instrument_id"].astype("UInt32")
     result["contract"] = result["contract"].astype("string")
     for column in [
         "start_reference_delay_seconds",
@@ -952,4 +1098,5 @@ def _synthetic_seconds(entries: list[tuple[pd.Timestamp, float]]) -> pd.DataFram
         "timestamp_second": timestamps.floor("s"),
         "first_trade_timestamp": timestamps,
         "open": [entry[1] for entry in entries],
+        "instrument_id": [entry[2] if len(entry) > 2 else 1 for entry in entries],
     })
