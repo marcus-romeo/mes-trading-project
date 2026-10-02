@@ -1,0 +1,82 @@
+{
+  "contract_version": "mes_model0_feature_contract_v1",
+  "output_schema_version": "mes_model0_features_v1_from_1m_event_time_41",
+  "source_one_minute_schema_version": "mes_1m_v1_from_v2_event_time_33",
+  "source_one_minute_path": "data/processed/1m/full_history_v1",
+  "row_universe": "one row per observed source one-minute decision boundary, independent of Target V2",
+  "expected_rows": 329337,
+  "missing_predictor_representation": "pandas nullable Float64/pd.NA in memory; Arrow null in persisted float64 columns; never delete a source row for missing predictors",
+  "source_coverage_utc": {
+    "start_inclusive": "2025-10-07T00:00:00Z",
+    "end_exclusive": "2026-09-11T00:00:00Z"
+  },
+  "unavailable_intervals_utc": [
+    {
+      "session_date": "2025-11-28",
+      "start_inclusive": "2025-11-28T02:45:00Z",
+      "end_exclusive": "2025-11-28T13:30:00Z",
+      "classification": "confirmed_outage"
+    },
+    {
+      "session_date": "2025-12-24",
+      "start_inclusive": "2025-12-24T07:51:00Z",
+      "end_exclusive": "2025-12-24T07:52:00Z",
+      "classification": "unresolved_gap_treated_unavailable"
+    },
+    {
+      "session_date": "2025-12-24",
+      "start_inclusive": "2025-12-24T07:55:00Z",
+      "end_exclusive": "2025-12-24T07:56:00Z",
+      "classification": "unresolved_gap_treated_unavailable"
+    },
+    {
+      "session_date": "2025-12-30",
+      "start_inclusive": "2025-12-30T06:45:00Z",
+      "end_exclusive": "2025-12-30T06:46:00Z",
+      "classification": "unresolved_gap_treated_unavailable"
+    }
+  ],
+  "columns": [
+    {"name": "decision_timestamp", "role": "identity", "arrow_type": "timestamp[ns, tz=UTC]", "pandas_dtype": "datetime64[ns, UTC]", "nullable": false},
+    {"name": "minute_start", "role": "identity", "arrow_type": "timestamp[ns, tz=UTC]", "pandas_dtype": "datetime64[ns, UTC]", "nullable": false},
+    {"name": "session_date", "role": "identity", "arrow_type": "date32", "pandas_dtype": "object", "pandas_value_type": "datetime.date", "nullable": false},
+    {"name": "instrument_id", "role": "identity", "arrow_type": "uint32", "pandas_dtype": "uint32", "nullable": false},
+    {"name": "contract", "role": "identity", "arrow_type": "large_string", "pandas_dtype": "string", "nullable": false},
+    {"name": "return_1m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "return_5m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "return_15m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "return_30m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "return_60m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "range_5m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "range_15m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "trend_efficiency_5m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "trend_efficiency_15m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "realized_volatility_15m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "realized_volatility_60m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "volatility_ratio_15m_60m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "log_volume_1m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "log_trade_count_1m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "log_average_trade_size_1m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "trade_size_dispersion_1m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "log_max_trade_size_1m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "active_second_fraction_1m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "relative_volume_q", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "relative_trade_count_q", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "activity_acceleration_5m", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "session_vwap_distance", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "session_range_position", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "session_high_distance", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "session_low_distance", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "prior_session_high_distance", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "prior_session_low_distance", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "prior_session_close_distance", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "us_opening_range_position", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "Float64", "nullable": true},
+    {"name": "time_of_day_sin", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "float64", "nullable": false},
+    {"name": "time_of_day_cos", "role": "predictor", "arrow_type": "float64", "pandas_dtype": "float64", "nullable": false},
+    {"name": "minutes_since_cme_open", "role": "predictor", "arrow_type": "uint16", "pandas_dtype": "uint16", "nullable": false},
+    {"name": "asia_flag", "role": "predictor", "arrow_type": "uint8", "pandas_dtype": "uint8", "nullable": false},
+    {"name": "europe_flag", "role": "predictor", "arrow_type": "uint8", "pandas_dtype": "uint8", "nullable": false},
+    {"name": "us_flag", "role": "predictor", "arrow_type": "uint8", "pandas_dtype": "uint8", "nullable": false},
+    {"name": "us_rth_flag", "role": "predictor", "arrow_type": "uint8", "pandas_dtype": "uint8", "nullable": false}
+  ]
+}

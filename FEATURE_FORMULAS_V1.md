@@ -159,7 +159,7 @@ over valid opening-range data.
 
 | Feature | Formula | Source and normalization | Missing and boundary rule | Live parity |
 |---|---|---|---|---|
-| Opening-range position | (C_T - OR_low) / (OR_high - OR_low) | close, opening-range high and low; bounded position | Available at or after 09:00 CT; use 0.5 if range is zero; missing after an invalid range boundary or contract transition | LIVE SAFE WITH STATE |
+| Opening-range position | (C_T - OR_low) / (OR_high - OR_low) | close, opening-range high and low; unclipped position | Available at or after 09:00 CT; use 0.5 if range is zero; missing after an invalid range boundary or contract transition | LIVE SAFE WITH STATE |
 
 ### Time and regime
 
@@ -340,6 +340,132 @@ calculating Model 0 feature values.
   roll invalidates the old range for the new contract. The stated zero-range
   value of 0.5 is retained. A missing opening range leaves the otherwise valid
   prediction observation in place with this feature missing.
+
+## Final pre-implementation Model 0 clarification — 2026-10-01
+
+The following decisions were approved after the read-only Model 0 readiness
+audit, before any Model 0 feature value or predictive result was calculated.
+They clarify validity and output representation without changing the 36
+formulas above or the prior-20, prior-session, and opening-range admission
+rules. [Model 0 Feature Contract V1](MODEL0_FEATURE_CONTRACT_V1.json) is the
+single machine-readable source for the output schema, purchased UTC coverage,
+and known unavailable-interval mask. These rules apply to Model 0 only; they
+do not rewrite frozen source or Target V2 artifacts.
+
+### Elapsed-window source coverage and sparse observations
+
+- A valid W_h(T) requires the entire requested [T-hm, T) interval to lie
+  inside the acquired UTC source interval in the contract. The preceding-five
+  activity comparison independently requires its entire [T-6m, T-1m)
+  interval to be source-covered. If any part precedes the acquired start or
+  reaches its exclusive end, the corresponding feature is null. A single
+  observed minute cannot stand in for an unacquired part of the window.
+- A window is null if it intersects an unavailable interval in the contract's
+  `unavailable_intervals_utc` mask, a prohibited session or scheduled market
+  closure, or a contract transition. The gap mask is authoritative for this
+  frozen history; do not duplicate its timestamp literals across feature
+  functions. Use half-open interval overlap: a window ending exactly when a
+  gap begins, or starting exactly when it ends, does not intersect that gap.
+  A window starting exactly at a new contract's first minute may be valid if
+  all of its minutes use that contract; a transition inside the window is not.
+  G_h paths continue to require every exact elapsed close.
+- A fully source-covered window may use its actual sparse trade-bearing rows
+  where W_h permits this. A verified no-trade minute is not an unavailable
+  source interval and contributes no invented row. Do not forward-fill or
+  convert unavailable source data into a zero-volume market minute. In this
+  historical minute foundation, the four observed within-session absent-minute
+  intervals are the four masked unavailable intervals; a future verified
+  zero-trade minute is conceptually different.
+
+### Current-session cumulative price state
+
+- Session VWAP, session high, session low, session-range position, and the
+  normalized session VWAP/high/low distances require trustworthy source
+  coverage from the nominal 17:00 CT session start, or from the current
+  contract's start after a roll in an otherwise clean session, through T.
+  Ordinary verified no-trade minutes within covered source do not invalidate
+  state and do not add synthetic trades.
+- When acquisition begins after the nominal session start, all these
+  whole-session cumulative features are null for that entire source-truncated
+  session, even though individual completed minutes and shorter covered
+  windows may remain valid. In this frozen history this applies to the first
+  source-boundary session, 2025-10-07. The final source-boundary session starts
+  within acquired coverage and follows the same observation-level rule; do not
+  reject it merely because acquisition ends before its nominal session close.
+- An unavailable internal gap or outage does not invalidate otherwise valid
+  cumulative values before the gap. After the first such interval, these
+  whole-session cumulative features are null for every later decision in that
+  CME session, including after any later contract change. Do not carry state
+  through the gap or restart a post-gap segment under a whole-session name.
+  A clean next CME session starts fresh. Scheduled early closes and holidays
+  do not themselves invalidate observed, source-covered session state.
+- A contract change resets cumulative price state to the new instrument in a
+  clean session. Never combine old- and new-contract raw prices. A valid new
+  contract segment uses only its own completed minutes; prior old-contract
+  state does not enter it. The earlier source-truncation and post-gap
+  invalidation rules still take precedence.
+
+### Five-minute activity acceleration at a roll
+
+The current completed minute and every observed comparison minute in
+[T-6m, T-1m) must have the same instrument_id. The whole comparison interval
+must also avoid a contract transition, even if a no-trade minute occurs at the
+transition. If the current minute belongs to the new contract and any part of
+the required comparison belongs to the old one, activity acceleration is null.
+This does not change the separate rule allowing earlier roll sessions to
+contribute to the prior-20 same-q participation baseline.
+
+### Row universe and fixed output schema
+
+- Emit exactly one Model 0 feature row per observed approved one-minute
+  decision row: 329,337 rows in this frozen foundation. Preserve source row
+  identity and order. Do not use Target V2 eligibility, labels, reference
+  fields, or outcome diagnostics to construct or filter predictor rows.
+- Keep a row when a predictor is unavailable. Nullable numerical predictors
+  use pandas `Float64` with `pd.NA` in memory and Arrow null in the stored
+  `float64` field. Do not replace nulls with a learned or fixed value during
+  deterministic construction; any later learned missing-value treatment is
+  fitted on training history only.
+- The contract JSON freezes exactly five ordered identity/lineage columns
+  followed by 36 ordered Model 0 predictor columns. It fixes each column's
+  name, Arrow type, pandas type, and nullability, plus the physical schema
+  version `mes_model0_features_v1_from_1m_event_time_41`. Time sine/cosine,
+  integer session age, and four regime flags are non-null. No diagnostic or
+  Target V2 column is part of this 41-column predictor-layer schema.
+- Target V2 may be joined only later when constructing a controlled modeling
+  sample. If validity metadata is useful, write it separately as
+  non-predictive audit or manifest information. Model 0 features remain based
+  only on the approved one-minute foundation and the known calendar/source
+  validity contract.
+
+### Predefined deterministic validation cases
+
+These cases specify assertions for the next implementation pass; they are not
+calculated feature results. Historical timestamps below are UTC and precede
+the designated model holdout. The implementation audit should check every
+feature's exact formula and null propagation in addition to these boundaries.
+
+| Case | Decision boundary or fixture | Required assertion |
+|---|---|---|
+| Ordinary liquid session | 2026-02-03 15:01 | Exact G_h and W_h timestamp membership, current-minute inclusion, completed opening range, and no event at/after T. |
+| Early insufficient history | 2026-02-02 23:10 | Short exact paths may exist; G_15/G_30/G_60 and dependent values are null. |
+| First 60-minute path | 2026-02-03 00:00 and 00:01 | G_60 is unavailable one minute before, then uses exactly 61 same-contract closes at 00:01. |
+| Three roll transitions | 2025-12-17, 2026-03-18, and 2026-06-17 at 00:01; also 2025-12-17 01:01 | No path or price state combines contracts; the first new-contract minute lacks old-contract returns, and a new G_60 first becomes possible after 60 exact minutes. |
+| First post-roll activity | Each roll's 00:01 decision and a later fully new-contract comparison | Acceleration is null when its comparison uses old-contract time; it becomes eligible only with a covered, same-contract preceding five-minute interval. |
+| Confirmed outage | 2025-11-28 02:45 and 13:31 | Pre-outage cumulative state may exist; post-outage whole-session state is null, and windows/paths do not bridge the masked interval. |
+| Isolated December gaps | 2025-12-24 07:53 and 07:57; 2025-12-30 06:47 | Every path/window intersecting the respective mask is null; no missing minute is filled. |
+| Scheduled early close | 2025-11-27 18:00 | The last observed boundary remains valid; no fixed session row count or ordinary 16:00 CT close is required. |
+| Opening-range release | 2026-02-03 14:59, 15:00, and 15:01 | Unavailable before 09:00 CT, available at 09:00 only after all 30 slots, retained later only for the same contract. |
+| Invalid immediately prior session | 2025-12-01 15:00 and 2025-12-18 15:00 | Prior-session distances are null because the immediately prior session has an outage or an internal roll; do not skip backward. |
+| Causal activity baseline | 2025-11-03 and 2025-11-04 at 15:00 | At q=960, 19 prior same-q rows leave both relative features null; exactly 20 permit the frozen medians. |
+| First source-partial session | 2025-10-07 00:01 | A window reaching before acquisition is null, and whole-session cumulative state stays null for this session. |
+| Source-covered sparse versus unavailable | Synthetic two otherwise identical windows, one with a verified zero-trade minute and one intersecting a masked unavailable minute | The former uses observed sparse rows where W_h allows; the latter is null. Neither synthesizes a bar. |
+| Roll after opening range | Synthetic same-session transition after 09:00 CT | The old range does not transfer to the new contract. |
+| Zero and near-zero denominators | Synthetic flat and near-flat price/size cases | Trend efficiency uses 0 for exactly zero travel; zero session/opening range uses 0.5; sigma_60 and S_60 thresholds propagate null exactly as specified. |
+| Opening-range breakout | Synthetic OR_low=100, OR_high=101, C_T=102 | Position is 2, not clipped to 1. |
+
+These tests must not use Target V2 eligibility or outcomes to decide feature
+validity. The production feature layer is not built by this clarification.
 
 ## Live parity
 

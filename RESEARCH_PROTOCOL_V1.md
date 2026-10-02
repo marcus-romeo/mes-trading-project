@@ -384,6 +384,16 @@ whose future reference trades belonged to the next contract. Target V1 and
 all earlier foundations remain preserved; V2 supplies the corrected outcome
 layer for subsequent research. Neither change follows predictive results.
 
+A final pre-implementation clarification in the same feature specification
+freezes full elapsed-window source coverage, current-session cumulative-state
+validity after source truncation or internal gaps, and same-contract activity
+acceleration. [Model 0 Feature Contract V1](MODEL0_FEATURE_CONTRACT_V1.json)
+is the sole machine-readable definition of the four known unavailable
+intervals and the ordered 41-column output schema: five identity columns and
+36 Model 0 predictors. The feature row universe is every observed approved
+one-minute decision boundary, independent of Target V2 eligibility. These
+decisions precede Model 0 feature calculation and predictive modeling.
+
 ## 27. Current project stage
 
 **Completed**
@@ -397,6 +407,7 @@ layer for subsequent research. Neither change follows predictive results.
 - First-second timing study
 - Research Protocol V1 design
 - Feature Formula Specification V1 and pre-model admission clarification
+- Final Model 0 validity rules, gap mask, and output schema contract
 - Target V1 construction and audit; preserved for provenance
 - Corrected Target V2 construction and independent contract-identity audit
 

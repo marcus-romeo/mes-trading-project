@@ -190,7 +190,11 @@ and run/session-manifest facts independently.
 
 Implement and independently validate causal Model 0 features from the frozen
 `1m/full_history_v1` foundation using the pre-model admission clarification in
-`FEATURE_FORMULAS_V1.md`. Use corrected Target V2 for later evaluation. Do not
+`FEATURE_FORMULAS_V1.md` and the ordered schema/source-validity mask in
+`MODEL0_FEATURE_CONTRACT_V1.json`. The future layer must have one row per
+observed approved minute (329,337 rows) and 36 predictors, retaining rows with
+null individual features. Its construction is independent of Target V2;
+corrected Target V2 is joined only for later controlled evaluation. Do not
 train a model during feature implementation, and do not use receive-time
 `1s/full_history_v1` for modeling.
 
