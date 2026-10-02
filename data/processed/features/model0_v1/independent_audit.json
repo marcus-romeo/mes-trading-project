@@ -1,0 +1,342 @@
+{
+  "passed": true,
+  "session_files": 242,
+  "rows": 329337,
+  "predictors": 36,
+  "selected_numeric_checks": 828,
+  "validity_mask_checks": {
+    "exact_price_paths": 1646685,
+    "elapsed_range_windows": 658674,
+    "activity_windows": 329337,
+    "session_cumulative_state": 329337,
+    "activity_baselines": 329337,
+    "prior_session_admission": 329337,
+    "opening_range_admission": 329337
+  },
+  "feature_distributions": {
+    "return_1m": {
+      "non_null": 329088,
+      "null": 249,
+      "null_pct": 0.07560644567722424,
+      "finite": 329088,
+      "min": -0.006517320922778203,
+      "median": 0.0,
+      "max": 0.013729145552031271
+    },
+    "return_5m": {
+      "non_null": 328094,
+      "null": 1243,
+      "null_pct": 0.3774249476979507,
+      "finite": 328094,
+      "min": -0.009166238039963198,
+      "median": 0.0,
+      "max": 0.03234131509482094
+    },
+    "return_15m": {
+      "non_null": 325614,
+      "null": 3723,
+      "null_pct": 1.1304530010293408,
+      "finite": 325614,
+      "min": -0.011023267646391856,
+      "median": 0.0,
+      "max": 0.03499857005930925
+    },
+    "return_30m": {
+      "non_null": 321894,
+      "null": 7443,
+      "null_pct": 2.259995081026426,
+      "finite": 321894,
+      "min": -0.01579624227699396,
+      "median": 3.3063862854169643e-05,
+      "max": 0.03599807039239273
+    },
+    "return_60m": {
+      "non_null": 314454,
+      "null": 14883,
+      "null_pct": 4.519079241020596,
+      "finite": 314454,
+      "min": -0.01917134062030534,
+      "median": 6.392124905926579e-05,
+      "max": 0.03465282179901237
+    },
+    "range_5m": {
+      "non_null": 328342,
+      "null": 995,
+      "null_pct": 0.3021221423648117,
+      "finite": 328342,
+      "min": 3.237346024013525e-05,
+      "median": 0.0005046681913823097,
+      "max": 0.033274090631309185
+    },
+    "range_15m": {
+      "non_null": 325862,
+      "null": 3475,
+      "null_pct": 1.0551501956962017,
+      "finite": 325862,
+      "min": 9.5986178064173e-05,
+      "median": 0.000885608913970775,
+      "max": 0.037037775036253294
+    },
+    "trend_efficiency_5m": {
+      "non_null": 328094,
+      "null": 1243,
+      "null_pct": 0.3774249476979507,
+      "finite": 328094,
+      "min": -1.0,
+      "median": 3.305868392949253e-14,
+      "max": 1.0
+    },
+    "trend_efficiency_15m": {
+      "non_null": 325614,
+      "null": 3723,
+      "null_pct": 1.1304530010293408,
+      "finite": 325614,
+      "min": -1.0,
+      "median": 9.001909552292671e-14,
+      "max": 1.0
+    },
+    "realized_volatility_15m": {
+      "non_null": 325614,
+      "null": 3723,
+      "null_pct": 1.1304530010293408,
+      "finite": 325614,
+      "min": 1.607554397270281e-05,
+      "median": 0.00014529240253107677,
+      "max": 0.005013841033777824
+    },
+    "realized_volatility_60m": {
+      "non_null": 314454,
+      "null": 14883,
+      "null_pct": 4.519079241020596,
+      "finite": 314454,
+      "min": 3.167714034747772e-05,
+      "median": 0.00015691778161223318,
+      "max": 0.0027792460770279664
+    },
+    "volatility_ratio_15m_60m": {
+      "non_null": 314454,
+      "null": 14883,
+      "null_pct": 4.519079241020596,
+      "finite": 314454,
+      "min": 0.07635445988239828,
+      "median": 0.9508153204210694,
+      "max": 1.9866325657439299
+    },
+    "log_volume_1m": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 0.6931471805599453,
+      "median": 5.707110264748875,
+      "max": 10.542310534365473
+    },
+    "log_trade_count_1m": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 0.6931471805599453,
+      "median": 4.709530201312334,
+      "max": 9.381769487603714
+    },
+    "log_average_trade_size_1m": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 0.0,
+      "median": 1.0063799531291961,
+      "max": 2.7769397080741074
+    },
+    "trade_size_dispersion_1m": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 0.0,
+      "median": 1.2196394903430445,
+      "max": 8.878368729017044
+    },
+    "log_max_trade_size_1m": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 0.6931471805599453,
+      "median": 3.1354942159291497,
+      "max": 7.1853870155804165
+    },
+    "active_second_fraction_1m": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 0.016666666666666666,
+      "median": 0.6833333333333333,
+      "max": 1.0
+    },
+    "relative_volume_q": {
+      "non_null": 301737,
+      "null": 27600,
+      "null_pct": 8.380473496752566,
+      "finite": 301737,
+      "min": -6.174268683443981,
+      "median": -0.005441223448269028,
+      "max": 4.644851813941882
+    },
+    "relative_trade_count_q": {
+      "non_null": 301737,
+      "null": 27600,
+      "null_pct": 8.380473496752566,
+      "finite": 301737,
+      "min": -5.406300740773896,
+      "median": -0.0006381068300944648,
+      "max": 4.229409018824196
+    },
+    "activity_acceleration_5m": {
+      "non_null": 328094,
+      "null": 1243,
+      "null_pct": 0.3774249476979507,
+      "finite": 328094,
+      "min": -3.4531571205928664,
+      "median": -0.1223815561981012,
+      "max": 5.171325391806343
+    },
+    "session_vwap_distance": {
+      "non_null": 311616,
+      "null": 17721,
+      "null_pct": 5.380810537534501,
+      "finite": 311616,
+      "min": -10.842696854465403,
+      "median": 0.2409056520902856,
+      "max": 15.138353620535606
+    },
+    "session_range_position": {
+      "non_null": 326256,
+      "null": 3081,
+      "null_pct": 0.935515900126618,
+      "finite": 326256,
+      "min": 0.0,
+      "median": 0.5833333333333334,
+      "max": 1.0
+    },
+    "session_high_distance": {
+      "non_null": 311616,
+      "null": 17721,
+      "null_pct": 5.380810537534501,
+      "finite": 311616,
+      "min": -21.079853749144814,
+      "median": -1.5675278255126706,
+      "max": 0.0
+    },
+    "session_low_distance": {
+      "non_null": 311616,
+      "null": 17721,
+      "null_pct": 5.380810537534501,
+      "finite": 311616,
+      "min": 0.0,
+      "median": 2.190024229809569,
+      "max": 32.55521823888507
+    },
+    "prior_session_high_distance": {
+      "non_null": 300354,
+      "null": 28983,
+      "null_pct": 8.800408092622451,
+      "finite": 300354,
+      "min": -27.67343561321619,
+      "median": -3.4737756304685807,
+      "max": 28.171084564319173
+    },
+    "prior_session_low_distance": {
+      "non_null": 300354,
+      "null": 28983,
+      "null_pct": 8.800408092622451,
+      "finite": 300354,
+      "min": -13.301204528049528,
+      "median": 5.256313617953889,
+      "max": 80.29189159525058
+    },
+    "prior_session_close_distance": {
+      "non_null": 300354,
+      "null": 28983,
+      "null_pct": 8.800408092622451,
+      "finite": 300354,
+      "min": -18.47954712028376,
+      "median": 0.3210163397176217,
+      "max": 31.97667639003542
+    },
+    "us_opening_range_position": {
+      "non_null": 98910,
+      "null": 230427,
+      "null_pct": 69.96693356652912,
+      "finite": 98910,
+      "min": -11.094117647058823,
+      "median": 0.5898876404494382,
+      "max": 5.51063829787234
+    },
+    "time_of_day_sin": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": -1.0,
+      "median": 0.009105939816618005,
+      "max": 1.0
+    },
+    "time_of_day_cos": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": -1.0,
+      "median": -0.00910593981661851,
+      "max": 1.0
+    },
+    "minutes_since_cme_open": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 1.0,
+      "median": 686.0,
+      "max": 1380.0
+    },
+    "asia_flag": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 0.0,
+      "median": 0.0,
+      "max": 1.0
+    },
+    "europe_flag": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 0.0,
+      "median": 0.0,
+      "max": 1.0
+    },
+    "us_flag": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 0.0,
+      "median": 0.0,
+      "max": 1.0
+    },
+    "us_rth_flag": {
+      "non_null": 329337,
+      "null": 0,
+      "null_pct": 0.0,
+      "finite": 329337,
+      "min": 0.0,
+      "median": 0.0,
+      "max": 1.0
+    }
+  }
+}

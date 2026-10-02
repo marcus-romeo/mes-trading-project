@@ -5,7 +5,8 @@ sound, explainable pipeline for Micro E-mini S&P 500 futures (`MES`) data. It
 does not contain a trading strategy or a trained model yet. The event-time
 one-second and derived one-minute historical foundations are complete and
 frozen. Target V1 is preserved as provenance; corrected Target V2 is the
-approved outcome layer. The next research stage is causal Model 0 features.
+approved outcome layer. The Model 0 feature layer has been built and
+independently audited; no predictive model has been trained or evaluated.
 
 ## Objective
 
@@ -41,18 +42,18 @@ validated V2 event-time 1-second Parquet sessions + JSON manifests
         |  one session at a time; completed-minute aggregation
         v
 frozen V1 one-minute foundation + JSON run manifest
-        |
-        |  15-minute paths; endpoint trades from approved V2 seconds
-        v
-corrected, contract-safe Target V2 + run manifest
-        |  (Target V1 preserved separately as provenance)
-        |
-        v
-future causal Model 0 features from completed minutes
-        |
-        v
-future Model 1 features, chronological validation, and trading research
+        |                              |
+        |  15-minute paths; V2 trades  |  frozen causal formulas
+        v                              v
+corrected Target V2              validated Model 0 features
+(Target V1 preserved)            (no target data used)
+                                       |
+                                       v
+                              future Model 1 features
 ```
+
+Target V2 is joined with a feature layer only later for controlled
+chronological validation. Trading research follows that evaluation.
 
 The 1-second processor deliberately retains the validated chunk architecture:
 it carries tick-rule and price-change state between chunks, holds the final
@@ -86,9 +87,12 @@ provide an equivalent exchange-native label.
   checks, including the Target V1-to-V2 change record.
 
 The executable implementations are `src/trade_processing_v2.py`,
-`src/feature_engineering_v1.py`, and `src/target_engineering_v2.py`.
+`src/feature_engineering_v1.py`, `src/target_engineering_v2.py`, and
+`src/model0_features_v1.py`.
 `src/target_audit_v2.py` provides a separate read-only source audit. The
-preserved `src/target_engineering_v1.py` records the historical Target V1
+read-only `src/model0_audit_v1.py` audits the feature layer against the minute
+source, independently recalculating selected values. The preserved
+`src/target_engineering_v1.py` records the historical Target V1
 implementation. Keeping production logic in source modules prevents notebook
 prototypes and validation paths from drifting.
 
@@ -103,7 +107,7 @@ Recommended review order:
 The pre-model research design is recorded in
 [Research Protocol V1](RESEARCH_PROTOCOL_V1.md).
 
-Exact pre-implementation feature definitions are recorded in
+The frozen feature definitions are recorded in
 [Feature Formula Specification V1](FEATURE_FORMULAS_V1.md).
 
 ## Dataset versions and status
@@ -137,6 +141,14 @@ Exact pre-implementation feature definitions are recorded in
   are now `FUTURE_REFERENCE_CONTRACT_MISMATCH`; no other shared target field
   changed outside those rows. Target-side prices, delays, IDs, labels, and
   eligibility diagnostics must never enter the predictive feature matrix.
+- `data/processed/features/model0_v1/` contains the 242-session, 329,337-row
+  Model 0 layer derived solely from the frozen minute foundation. Its 41-column
+  Arrow schema contains five identity fields and exactly 36 predictors, with
+  unavailable feature values stored as nulls. `run_manifest.json` records
+  source lineage, per-session validity summaries, and per-feature null counts;
+  `independent_audit.json` records the separate full-history audit and
+  feature-only distribution checks. The Parquet files are ignored by Git and
+  must be transferred separately when reproducing this built state.
 
 Each minute row is timestamped at the decision boundary immediately after its
 source minute: a row at `10:31:00` contains only the completed
@@ -158,7 +170,7 @@ foundation preserves instrument identity and `contract_change`; returns,
 momentum, volatility, level distances, and other rolling price features must
 restart at every new contract. Native Databento aggressor-side fields remain
 historical benchmark fields only. Production model inputs must use the
-live-compatible inferred order-flow fields.
+live-compatible inferred order-flow fields when order flow is included.
 
 The V2 `unique_price_levels` and `max_volume_at_price` fields are intentionally
 not included in the minute foundation. Their exact minute-level equivalents
@@ -186,29 +198,33 @@ and run/session-manifest facts independently.
   trades are unusable; their treatment must be chosen explicitly in later
   research.
 
-## Next step
+## Model 0 verification and next step
 
-Implement and independently validate causal Model 0 features from the frozen
-`1m/full_history_v1` foundation using the pre-model admission clarification in
-`FEATURE_FORMULAS_V1.md` and the ordered schema/source-validity mask in
-`MODEL0_FEATURE_CONTRACT_V1.json`. The future layer must have one row per
-observed approved minute (329,337 rows) and 36 predictors, retaining rows with
-null individual features. Its construction is independent of Target V2;
-corrected Target V2 is joined only for later controlled evaluation. Do not
-train a model during feature implementation, and do not use receive-time
-`1s/full_history_v1` for modeling.
+The feature implementation uses `FEATURE_FORMULAS_V1.md` and the ordered
+schema/source-validity mask in `MODEL0_FEATURE_CONTRACT_V1.json`. It builds one
+row per approved minute independently of Target V2 eligibility or outcomes.
+The deterministic suite can be run with
+`python -m unittest discover -s tests -v`. The production writer is
+`src.model0_features_v1.build_full_history_model0`; it refuses to overwrite a
+populated output directory. The separate read-only audit can be rerun with
+`python -m src.model0_audit_v1` after the ignored feature Parquets are present.
+
+Review and commit this feature-engineering milestone before beginning
+chronological modeling. No target was joined, no predictive model was trained,
+and no holdout performance was inspected during feature construction.
 
 ## Reproducing the current data state
 
 Git contains source code, notebooks, research specifications, and JSON run
 manifests. The purchased raw DBN, generated Parquet sessions, `.env`, and
 `.venv` are deliberately ignored. A clean clone therefore cannot read the
-historical target files without a separately transferred artifact set or a
-rebuild from the purchased DBN. The required local artifact paths are listed
-in the dataset section above; the raw DBN is the only input to the original
-event-time build. A rebuild must use `ts_event`, verify the DBN metadata and
-contract mapping, and run the source-to-output audits before trusting the
-result. Do not run production writers against already populated frozen paths.
+historical target or Model 0 feature files without a separately transferred
+artifact set or a rebuild from the purchased DBN. The required local paths
+are listed in the dataset section above; the raw DBN is the only input to the
+original event-time build. A rebuild must use `ts_event`, verify the DBN
+metadata and contract mapping, and run the source-to-output audits before
+trusting the result. Do not run production writers against already populated
+frozen paths.
 
 `requirements.txt` records the current Python dependencies; the audited local
 environment used Python 3.12.10. Manifests record row counts and lineage, not
