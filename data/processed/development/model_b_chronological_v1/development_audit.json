@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "development_sample_rows": 231584,
+  "validation_rows": 77760,
+  "replayed_model_b_probabilities": 77760,
+  "training_medians_checked": 108,
+  "training_only_scaler_checks": 3,
+  "folds_purged": [
+    0,
+    0,
+    0
+  ],
+  "model_a_validation_universe_identical": true,
+  "holdout_outcomes_loaded": false,
+  "holdout_predictions_generated": false
+}

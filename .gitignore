@@ -3,6 +3,7 @@
 **/.DS_Store
 *.dbn
 *.parquet
+data/processed/development/model_b_chronological_v1/*.pkl
 .venv/
 
 __pycache__/

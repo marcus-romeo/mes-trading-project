@@ -231,8 +231,15 @@ ignored development Parquets.
 
 Research Protocol V1 precommitted to one conservative nonlinear tree comparison,
 but not its exact Model B configuration. `MODEL_B_SPEC_V1.md` records the exact
-configuration in a separate pre-result commit. The historical holdout remains
-reserved for one evaluation after development decisions are frozen.
+configuration in a separate pre-result commit. The single frozen Model B
+development run is recorded in
+`data/processed/development/model_b_chronological_v1/`; its independent audit
+replays all saved validation probabilities from the fitted fold pipelines.
+Model B's log loss was worse than Baseline 0 and Model A in all three
+development folds. `MODEL_B_DEVELOPMENT_PROVENANCE_V1.json` records hashes for
+its ignored validation predictions and fitted pipelines. The historical
+holdout remains reserved for one evaluation after development decisions are
+frozen. No trading edge has been established.
 
 ## Reproducing the current data state
 

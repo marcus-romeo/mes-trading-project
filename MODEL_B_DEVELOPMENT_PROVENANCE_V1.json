@@ -1,0 +1,37 @@
+{
+  "record_version": "mes_model_b_development_artifact_provenance_v1",
+  "algorithm": "SHA-256",
+  "scope": "Ignored Model B development predictions and fitted fold pipelines only; no final-holdout predictions or outcomes",
+  "development_run_version": "mes_model_b_chronological_development_v1",
+  "pre_result_spec_commit": "0ef1c34af947f3a563c1e9a3652dbed086e3233d",
+  "run_manifest_path": "data/processed/development/model_b_chronological_v1/run_manifest.json",
+  "run_manifest_sha256": "d174b0d512f3d2329333433a3e0f1833489211ad80b0cd81d5e1c4f28005eea1",
+  "holdout_predictions_included": false,
+  "files": [
+    {
+      "path": "data/processed/development/model_b_chronological_v1/validation_predictions.parquet",
+      "sha256": "f306164b5441ccdd66b01ddad6a156169583081bb0f90faa1a10fe81345b8d94",
+      "size_bytes": 2144406,
+      "row_count": 77760,
+      "column_count": 14
+    },
+    {
+      "path": "data/processed/development/model_b_chronological_v1/fitted_pipeline_fold_1.pkl",
+      "sha256": "e1039c82ffeac852054c8aacf5f831c6383f922a34d1669d5d7266b8a68cae72",
+      "size_bytes": 231652,
+      "training_rows": 153824
+    },
+    {
+      "path": "data/processed/development/model_b_chronological_v1/fitted_pipeline_fold_2.pkl",
+      "sha256": "43865b76b79fdea3ad22de380d195557a065744c68d23256335a850814dae6d5",
+      "size_bytes": 231916,
+      "training_rows": 179491
+    },
+    {
+      "path": "data/processed/development/model_b_chronological_v1/fitted_pipeline_fold_3.pkl",
+      "sha256": "4cd06ead04356508bb1118b7f0754de09e9b318e9301f246e5d19a9b8726a85a",
+      "size_bytes": 232052,
+      "training_rows": 205742
+    }
+  ]
+}
