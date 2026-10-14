@@ -2,11 +2,13 @@
 
 This repository is a research and learning project for building a technically
 sound, explainable pipeline for Micro E-mini S&P 500 futures (`MES`) data. It
-does not contain a trading strategy or a trained model yet. The event-time
+does not contain a trading strategy. The event-time
 one-second and derived one-minute historical foundations are complete and
 frozen. Target V1 is preserved as provenance; corrected Target V2 is the
 approved outcome layer. The Model 0 feature layer has been built and
-independently audited; no predictive model has been trained or evaluated.
+independently audited. Initial Model 0 development-only baselines and a
+regularized logistic model have been evaluated on chronological validation
+folds; the final historical holdout remains unevaluated.
 
 ## Objective
 
@@ -198,7 +200,7 @@ and run/session-manifest facts independently.
   trades are unusable; their treatment must be chosen explicitly in later
   research.
 
-## Model 0 verification and next step
+## Model 0 verification and chronological development
 
 The feature implementation uses `FEATURE_FORMULAS_V1.md` and the ordered
 schema/source-validity mask in `MODEL0_FEATURE_CONTRACT_V1.json`. It builds one
@@ -209,9 +211,28 @@ The deterministic suite can be run with
 populated output directory. The separate read-only audit can be rerun with
 `python -m src.model0_audit_v1` after the ignored feature Parquets are present.
 
-Review and commit this feature-engineering milestone before beginning
-chronological modeling. No target was joined, no predictive model was trained,
-and no holdout performance was inspected during feature construction.
+The first chronological Model 0 development pass is recorded in
+`data/processed/development/model0_chronological_v1/`. It joins only
+pre-holdout eligible Target V2 labels with the 36 frozen predictors, fits
+training-only preprocessing, and reports three expanding validation blocks.
+Its versioned manifest, fold metrics, coefficients, missingness report,
+validation predictions, and read-only development audit are kept separate
+from the frozen feature and target layers. The development Parquets are
+ignored by Git. Run `python -m src.model0_development_audit_v1` to recheck
+the saved development artifacts. No holdout predictions or performance
+results exist.
+
+The exact Model A settings are in its implementation and run manifest, which
+form one development milestone with the results. They were not committed in a
+separate pre-result specification; the audit found no evidence of result-driven
+retuning. Future model configurations will be committed before their first
+evaluation. `MODEL0_DEVELOPMENT_PROVENANCE_V1.json` records hashes for the two
+ignored development Parquets.
+
+Research Protocol V1 precommitted to one conservative nonlinear tree comparison,
+but not its exact Model B configuration. That specification must be recorded
+and committed before the first Model B development run. The historical holdout
+remains reserved for one evaluation after development decisions are frozen.
 
 ## Reproducing the current data state
 

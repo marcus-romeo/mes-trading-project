@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "development_sample_rows": 231584,
+  "validation_rows": 77760,
+  "baseline_probabilities_checked": 155520,
+  "training_medians_checked": 108,
+  "holdout_labels_loaded": false,
+  "holdout_predictions_present": false,
+  "split_and_metric_reconciliation": true
+}

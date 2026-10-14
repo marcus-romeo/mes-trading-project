@@ -1,0 +1,25 @@
+{
+  "record_version": "mes_model0_development_artifact_provenance_v1",
+  "algorithm": "SHA-256",
+  "scope": "Ignored Model A chronological development Parquets only; no final-holdout predictions or outcomes",
+  "development_run_version": "mes_model0_chronological_development_v1",
+  "run_manifest_path": "data/processed/development/model0_chronological_v1/run_manifest.json",
+  "run_manifest_sha256": "3e09b13afe602c3540318b0a6c50ac139df8cb9bcd123c42a77e2a1298855300",
+  "holdout_predictions_included": false,
+  "files": [
+    {
+      "path": "data/processed/development/model0_chronological_v1/development_eligible_sample.parquet",
+      "sha256": "0d654fe123857ca5f6f7627830f08a2d6288a027dcbcf30bb266c42950a11688",
+      "size_bytes": 51352097,
+      "row_count": 231584,
+      "column_count": 44
+    },
+    {
+      "path": "data/processed/development/model0_chronological_v1/validation_predictions.parquet",
+      "sha256": "d9b16662744a3bf20d8a523f190fb20e24b798721ad8c566dcf3702d8aaa5ba7",
+      "size_bytes": 1518187,
+      "row_count": 77760,
+      "column_count": 13
+    }
+  ]
+}

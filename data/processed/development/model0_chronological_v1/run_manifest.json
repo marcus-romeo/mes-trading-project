@@ -1,0 +1,180 @@
+{
+  "version": "mes_model0_chronological_development_v1",
+  "feature_schema_version": "mes_model0_features_v1_from_1m_event_time_41",
+  "target_schema_version": "mes_target_v2_event_time_15m_10s_contract_safe",
+  "predictor_columns": [
+    "return_1m",
+    "return_5m",
+    "return_15m",
+    "return_30m",
+    "return_60m",
+    "range_5m",
+    "range_15m",
+    "trend_efficiency_5m",
+    "trend_efficiency_15m",
+    "realized_volatility_15m",
+    "realized_volatility_60m",
+    "volatility_ratio_15m_60m",
+    "log_volume_1m",
+    "log_trade_count_1m",
+    "log_average_trade_size_1m",
+    "trade_size_dispersion_1m",
+    "log_max_trade_size_1m",
+    "active_second_fraction_1m",
+    "relative_volume_q",
+    "relative_trade_count_q",
+    "activity_acceleration_5m",
+    "session_vwap_distance",
+    "session_range_position",
+    "session_high_distance",
+    "session_low_distance",
+    "prior_session_high_distance",
+    "prior_session_low_distance",
+    "prior_session_close_distance",
+    "us_opening_range_position",
+    "time_of_day_sin",
+    "time_of_day_cos",
+    "minutes_since_cme_open",
+    "asia_flag",
+    "europe_flag",
+    "us_flag",
+    "us_rth_flag"
+  ],
+  "identity_keys": [
+    "decision_timestamp",
+    "session_date",
+    "instrument_id",
+    "contract"
+  ],
+  "counts": {
+    "feature_rows": 329337,
+    "target_v2_candidate_rows": 329337,
+    "target_v2_binary_eligible_rows": 309196,
+    "development_candidate_rows": 247137,
+    "development_modeling_rows": 231584,
+    "holdout_candidate_rows": 82080,
+    "holdout_eligible_rows_from_manifest_only": 77520,
+    "final_partial_candidate_rows": 120,
+    "final_partial_eligible_rows_from_manifest_only": 92
+  },
+  "holdout_session_start": "2026-06-19",
+  "holdout_session_end": "2026-09-10",
+  "holdout_outcomes_loaded": false,
+  "final_source_partial_session_excluded": "2026-09-11",
+  "folds": [
+    {
+      "validation_start_session": "2026-03-27",
+      "validation_end_session": "2026-04-23",
+      "validation_sessions": 20,
+      "raw_training_rows": 153824,
+      "purged_rows": 0,
+      "final_training_rows": 153824,
+      "validation_rows": 25667,
+      "latest_retained_training_decision": "2026-03-26 20:44:00+00:00",
+      "latest_retained_training_future_reference": "2026-03-26 20:59:00.215676445+00:00",
+      "earliest_validation_decision": "2026-03-26 22:01:00+00:00",
+      "earliest_validation_session": "2026-03-27",
+      "latest_validation_session": "2026-04-23",
+      "purged_decisions": [],
+      "training_target_max_strictly_before_validation": true,
+      "momentum_training_probabilities": {
+        "positive": {
+          "training_rows": 74106,
+          "training_up": 36778,
+          "p_up": 0.49628919954660766
+        },
+        "negative": {
+          "training_rows": 73532,
+          "training_up": 37590,
+          "p_up": 0.5112057007642723
+        },
+        "neutral_or_unavailable": {
+          "training_rows": 6186,
+          "p_up": 0.5036274751992511
+        }
+      }
+    },
+    {
+      "validation_start_session": "2026-04-24",
+      "validation_end_session": "2026-05-21",
+      "validation_sessions": 20,
+      "raw_training_rows": 179491,
+      "purged_rows": 0,
+      "final_training_rows": 179491,
+      "validation_rows": 26251,
+      "latest_retained_training_decision": "2026-04-23 20:44:00+00:00",
+      "latest_retained_training_future_reference": "2026-04-23 20:59:00.158305759+00:00",
+      "earliest_validation_decision": "2026-04-23 22:01:00+00:00",
+      "earliest_validation_session": "2026-04-24",
+      "latest_validation_session": "2026-05-21",
+      "purged_decisions": [],
+      "training_target_max_strictly_before_validation": true,
+      "momentum_training_probabilities": {
+        "positive": {
+          "training_rows": 87073,
+          "training_up": 43597,
+          "p_up": 0.5006948033304622
+        },
+        "negative": {
+          "training_rows": 85217,
+          "training_up": 43791,
+          "p_up": 0.5138760135650501
+        },
+        "neutral_or_unavailable": {
+          "training_rows": 7201,
+          "p_up": 0.5070949842055122
+        }
+      }
+    },
+    {
+      "validation_start_session": "2026-05-22",
+      "validation_end_session": "2026-06-18",
+      "validation_sessions": 20,
+      "raw_training_rows": 205742,
+      "purged_rows": 0,
+      "final_training_rows": 205742,
+      "validation_rows": 25842,
+      "latest_retained_training_decision": "2026-05-21 20:44:00+00:00",
+      "latest_retained_training_future_reference": "2026-05-21 20:59:00.000031099+00:00",
+      "earliest_validation_decision": "2026-05-21 22:01:00+00:00",
+      "earliest_validation_session": "2026-05-22",
+      "latest_validation_session": "2026-06-18",
+      "purged_decisions": [],
+      "training_target_max_strictly_before_validation": true,
+      "momentum_training_probabilities": {
+        "positive": {
+          "training_rows": 100305,
+          "training_up": 50361,
+          "p_up": 0.5020786186407729
+        },
+        "negative": {
+          "training_rows": 97190,
+          "training_up": 50226,
+          "p_up": 0.5167812165610338
+        },
+        "neutral_or_unavailable": {
+          "training_rows": 8247,
+          "p_up": 0.5092833812893693
+        }
+      }
+    }
+  ],
+  "configuration": {
+    "imputation": "training-fold median, all 36 columns, no missing indicators",
+    "scaling": "StandardScaler fitted on each purged training fold after imputation",
+    "model": "LogisticRegression",
+    "penalty": "L2",
+    "l1_ratio": 0.0,
+    "C": 1.0,
+    "solver": "lbfgs",
+    "max_iter": 1000,
+    "class_weight": null,
+    "feature_selection": false,
+    "probability_threshold": 0.5,
+    "calibration": "ten fixed equal-width validation-probability bins",
+    "target_v2_joined_into_feature_builder": false,
+    "holdout_labels_loaded": false,
+    "holdout_predictions_generated": false
+  },
+  "development_predictions_rows": 77760
+}

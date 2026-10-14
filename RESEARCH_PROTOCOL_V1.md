@@ -296,8 +296,35 @@ Before flexible models:
 - **Model A:** regularized logistic regression.
 - **Model B:** one conservative nonlinear tree-based model.
 
-Large hyperparameter searches are outside V1. The small tree-model
-configuration is frozen before final evaluation.
+Large hyperparameter searches are outside V1. This protocol precommitted to one
+conservative nonlinear tree-model comparison, but did not freeze the exact
+Model B algorithm or configuration. Its complete specification must be recorded
+and committed before the first Model B development run or result is calculated.
+
+### Pre-result Baseline 1 clarification — 2026-10-01
+
+This definition was approved before any predictive development result was
+calculated. Baseline 1 uses only the frozen Model 0 `return_15m` predictor. Its
+15-minute horizon matches the target horizon by design; no alternative
+momentum horizon was compared for this baseline.
+
+At decision time T, the momentum state is POSITIVE when `return_15m > 0`,
+NEGATIVE when `return_15m < 0`, and NEUTRAL/UNAVAILABLE when that return is
+zero or null. For each chronological fold, estimate probabilities using only
+its purged training observations:
+
+    P_up_positive = (UP_positive + 1) / (N_positive + 2)
+    P_up_negative = (UP_negative + 1) / (N_negative + 2)
+    P_up_overall  = (UP_all + 1) / (N_all + 2)
+
+These are fixed Laplace-smoothed probabilities; there is no tunable smoothing
+parameter. POSITIVE validation rows receive `P_up_positive`, NEGATIVE rows
+receive `P_up_negative`, and zero/null rows receive `P_up_overall`. Baseline 0
+uses that same `P_up_overall` for every validation row. For directional
+accuracy, both baselines predict UP when their probability is at least 0.5
+and DOWN otherwise. The same probabilities are used for log loss and Brier
+score. Validation and final-holdout observations never estimate any baseline
+probability.
 
 ## 20. Primary evaluation
 
