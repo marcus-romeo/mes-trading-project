@@ -230,9 +230,9 @@ evaluation. `MODEL0_DEVELOPMENT_PROVENANCE_V1.json` records hashes for the two
 ignored development Parquets.
 
 Research Protocol V1 precommitted to one conservative nonlinear tree comparison,
-but not its exact Model B configuration. That specification must be recorded
-and committed before the first Model B development run. The historical holdout
-remains reserved for one evaluation after development decisions are frozen.
+but not its exact Model B configuration. `MODEL_B_SPEC_V1.md` records the exact
+configuration in a separate pre-result commit. The historical holdout remains
+reserved for one evaluation after development decisions are frozen.
 
 ## Reproducing the current data state
 
